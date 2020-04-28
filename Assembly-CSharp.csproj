@@ -285,23 +285,23 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.15f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="EngineIoClientDotNet">
+      <HintPath>D:/it_work/capestone_project/API_Test/Assets/EngineIoClientDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:/it_work/capestone_project/API_Test/Assets/Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>D:/it_work/capestone_project/API_Test/Library/PackageCache/com.unity.analytics@3.2.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="SocketIoClientDotNet">
       <HintPath>D:/it_work/capestone_project/API_Test/Assets/SocketIoClientDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="EngineIoClientDotNet">
-      <HintPath>D:/it_work/capestone_project/API_Test/Assets/EngineIoClientDotNet.dll</HintPath>
+    <Reference Include="SuperSocket.ClientEngine">
+      <HintPath>D:/it_work/capestone_project/API_Test/Assets/SuperSocket.ClientEngine.dll</HintPath>
     </Reference>
     <Reference Include="WebSocket4Net">
       <HintPath>D:/it_work/capestone_project/API_Test/Assets/WebSocket4Net.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.ClientEngine">
-      <HintPath>D:/it_work/capestone_project/API_Test/Assets/SuperSocket.ClientEngine.dll</HintPath>
+    <Reference Include="Unity.Analytics.StandardEvents">
+      <HintPath>D:/it_work/capestone_project/API_Test/Library/PackageCache/com.unity.analytics@3.2.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.15f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

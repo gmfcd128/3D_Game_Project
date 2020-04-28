@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -45,4 +46,10 @@ public class UIManager : MonoBehaviour
     {
         message.text = msg;
     }
+
+    public void GoToLobby() 
+    {
+        SceneManager.LoadScene("Lobby");
+    }
 }
+

@@ -5,13 +5,15 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System.Text;
 using Newtonsoft.Json.Linq;
-
+using Quobject.SocketIoClientDotNet.Client;
 public class Networking : MonoBehaviour
 {
     [SerializeField]
-    private string url = "localhost:3000";
+    private string url = "localhost";
     private static string username, password;
     private string sessionCookie;
+    private Socket socket;
+
     private static Networking _instance;
     public static Networking instance
     {
@@ -29,6 +31,13 @@ public class Networking : MonoBehaviour
     {
         _instance = this;
         DontDestroyOnLoad(this.gameObject);
+        Debug.Log("Socket test.");
+        socket = IO.Socket("http://localhost:3001");
+        socket.On(Socket.EVENT_CONNECT, () =>
+        {
+            Debug.Log("SocketIO Connected!!");
+
+        });
     }
 
     public void Authenticate(string username, string password)
@@ -56,8 +65,7 @@ public class Networking : MonoBehaviour
     IEnumerator Login()
     {
         string authorization = GetAuthRequestString();
-        UnityWebRequest request = new UnityWebRequest(url + "/users/login", "POST");
-        UnityWebRequest.ClearCookieCache();
+        UnityWebRequest request = new UnityWebRequest(url + ":3000/users/login", "POST");
         request.useHttpContinue = false;
         request.SetRequestHeader("AUTHORIZATION", authorization);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
@@ -84,14 +92,16 @@ public class Networking : MonoBehaviour
                     Debug.Log("Key = " + OneItem.Key + ", Value = " + OneItem.Value);
                 }
             }
-            UIManager.instance.ShowMessage(result);
+            //UIManager.instance.ShowMessage(result);
+            UIManager.instance.GoToLobby();
+            
 
         }
     }
 
     IEnumerator SignUp()
     {
-        UnityWebRequest request = new UnityWebRequest(url + "/users/signup", "POST");
+        UnityWebRequest request = new UnityWebRequest(url + ":3000/users/signup", "POST");
         JObject credentials = new JObject();
         credentials["username"] = username;
         credentials["password"] = password;
@@ -115,4 +125,6 @@ public class Networking : MonoBehaviour
         }
 
     }
+
+
 }

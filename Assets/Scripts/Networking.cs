@@ -10,9 +10,10 @@ public class Networking : MonoBehaviour
 {
     [SerializeField]
     private string url = "localhost";
-    private static string username, password;
+    public static string username { get; private set; }
+    public static string password { get; private set; }
     private string sessionCookie;
-    private Socket socket;
+    public Socket socket { get; set; }
 
     private static Networking _instance;
     public static Networking instance
@@ -32,7 +33,7 @@ public class Networking : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(this.gameObject);
         Debug.Log("Socket test.");
-        socket = IO.Socket("http://localhost:3001");
+        socket = IO.Socket("http://localhost:3000");
         socket.On(Socket.EVENT_CONNECT, () =>
         {
             Debug.Log("SocketIO Connected!!");

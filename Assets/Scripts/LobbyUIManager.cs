@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -13,17 +14,34 @@ public class LobbyUIManager : MonoBehaviour
     private bool playerStatChanged = false;
     private Socket socket;
     private ManualResetEvent ManualResetEvent = null;
+    private GameObject canvas;
     private RoomScrollList scrollList;
+    public GameObject dialogPrefab;
+
+    private static LobbyUIManager _instance;
+    public static LobbyUIManager instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                Debug.Log("LobbyUIManager instance is null.");
+            }
+            return _instance;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        scrollList = GameObject.Find("Canvas").GetComponent<RoomScrollList>();
+        _instance = this;
+        canvas = GameObject.Find("Canvas");
+        scrollList = canvas.GetComponent<RoomScrollList>();
         Debug.Log("LobbyUI Started.");
         socket = Networking.instance.socket;
         var jobj = new JObject();
         jobj.Add("username", Networking.username);
-        socket.On("newPlayerEntered", (data) =>
+        socket.On("playerListUpdate", (data) =>
         {
             Debug.Log("QQ");
             playerListData = data.ToString();
@@ -36,20 +54,37 @@ public class LobbyUIManager : MonoBehaviour
     void updatePlayerList()
     {
         Debug.Log(@playerListData);
-        Dictionary<string, Player[]> roomDict = JsonConvert.DeserializeObject<Dictionary<string, Player[]>>(@playerListData);
-        foreach (var OneItem in roomDict)
+        Dictionary<string, string> onlinePlayers = JsonConvert.DeserializeObject<Dictionary<string, string>>(@playerListData);
+        scrollList.rooms.Clear();
+        scrollList.refreshDisplay();
+        foreach (var player in onlinePlayers)
         {
-            Debug.Log("Key = " + OneItem.Key);
-            foreach (var room in OneItem.Value)
+            Debug.Log("Key = " + player.Key);
+            if (player.Value != Networking.username)
             {
-                if (room.userName != Networking.username)
-                {
-                    scrollList.addItemToList(room);
-                }
-
+                Player onlinePlayer = new Player();
+                onlinePlayer.socketID = player.Key;
+                onlinePlayer.userName = player.Value;
+                scrollList.addItemToList(onlinePlayer);
             }
         }
         Debug.Log("addRoom function entered!");
+    }
+
+    public void createPopup(Player player)
+    {
+        GameObject dialog = Instantiate(dialogPrefab, canvas.transform);
+        Text messsage = dialog.transform.Find("Message").gameObject.GetComponent<Text>();
+        messsage.text = "正在等候" + player.userName + "...";
+        Button button = dialog.transform.Find("Button").gameObject.GetComponent<Button>();
+        button.onClick.AddListener(() =>destroyGameObject(dialog));
+        button.GetComponentInChildren<Text>().text = "取消"
+        socket.Emit("requestChallenge", player.socketID);
+    }
+
+    void destroyGameObject(GameObject gameObject)
+    {
+        Destroy(gameObject);
     }
 
     private void OnDestroy()

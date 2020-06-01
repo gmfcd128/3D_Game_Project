@@ -33,7 +33,7 @@ public class Networking : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(this.gameObject);
         Debug.Log("Socket test.");
-        socket = IO.Socket("http://localhost:3000");
+        socket = IO.Socket("http://" + url + ":3000");
         socket.On(Socket.EVENT_CONNECT, () =>
         {
             Debug.Log("SocketIO Connected!!");
@@ -66,8 +66,10 @@ public class Networking : MonoBehaviour
     IEnumerator Login()
     {
         string authorization = GetAuthRequestString();
-        UnityWebRequest request = new UnityWebRequest(url + ":3000/users/login", "POST");
+        UnityWebRequest request = new UnityWebRequest("http://" + url + ":3000/users/login", "POST");
+        Debug.Log(url + ":3000/users/login");
         request.useHttpContinue = false;
+        request.chunkedTransfer = false;
         request.SetRequestHeader("AUTHORIZATION", authorization);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         yield return request.SendWebRequest();

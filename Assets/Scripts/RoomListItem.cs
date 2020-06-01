@@ -13,7 +13,7 @@ public class RoomListItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        button.onClick.AddListener(HandleClick);
     }
 
     public void Setup(Player currentItem, RoomScrollList currentScrollList) 
@@ -21,6 +21,11 @@ public class RoomListItem : MonoBehaviour
         item = currentItem;
         roomNameLabel.text = item.userName;
         scrollList = currentScrollList;
+    }
+
+    public void HandleClick()
+    {
+        LobbyUIManager.instance.createPopup(item);
     }
 
 }

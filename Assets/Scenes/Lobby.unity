@@ -267,7 +267,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 499622438}
   m_HandleRect: {fileID: 499622437}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -821,6 +821,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c080d3dbbc7ff44bccaeb0a687c2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogPrefab: {fileID: 3893907316792322021, guid: 2c436bde843065049b3799ddb80ee1b7,
+    type: 3}
 --- !u!4 &1050211060
 Transform:
   m_ObjectHideFlags: 0
@@ -913,8 +915,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1493607618}
   m_HandleRect: {fileID: 1493607617}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1289,7 +1291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000009836223, y: 0.00001316948}
+  m_AnchoredPosition: {x: 0.000009836223, y: 0.000004363057}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2129855803

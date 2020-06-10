@@ -95,7 +95,6 @@ public class Networking : MonoBehaviour
                     Debug.Log("Key = " + OneItem.Key + ", Value = " + OneItem.Value);
                 }
             }
-            //UIManager.instance.ShowMessage(result);
             UIManager.instance.GoToLobby();
             
 

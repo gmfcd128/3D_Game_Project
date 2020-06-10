@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player
-{
-    public string socketID;
-    public string userName;
+public class Player {
+    public string username;
+    public bool isAvailable;
 }
+
 public class RoomScrollList : MonoBehaviour
 {
-    public List<Player> rooms;
+    public Dictionary<string, Player> players;
     public Transform contentPanel;
     public SimpleObjectPool buttonObjectPool;
     // Start is called before the first frame update
     void Start()
     {
-        rooms = new List<Player>();
+        players = new Dictionary<string, Player>();
         Debug.Log("ready to refresh display.");
         refreshDisplay();
     }
@@ -35,21 +35,20 @@ public class RoomScrollList : MonoBehaviour
         }
     }
 
-    public void addItemToList(Player item) 
+    public void addItemToList(string socketID, Player player) 
     {
-        rooms.Add(item);
+        players[socketID] = player;
         refreshDisplay();
     } 
 
     private void addButtons() 
     {
-        for (int i = 0; i < rooms.Count; i++)
+        foreach (var player in players)
         {
-            Player item = rooms[i];
             GameObject newButton = buttonObjectPool.GetObject();
             newButton.transform.SetParent(contentPanel);
             RoomListItem roomListItem = newButton.GetComponent<RoomListItem>();
-            roomListItem.Setup(item, this);
+            roomListItem.Setup(player.Key, player.Value.username, this);
         }
     }
 }

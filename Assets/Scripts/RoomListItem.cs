@@ -8,7 +8,8 @@ public class RoomListItem : MonoBehaviour
     public Button button;
     public Text roomNameLabel;
     public Text roomHostLabel;
-    private Player item;
+    private string socketID;
+    private string username;
     private RoomScrollList scrollList;
     // Start is called before the first frame update
     void Start()
@@ -16,16 +17,17 @@ public class RoomListItem : MonoBehaviour
         button.onClick.AddListener(HandleClick);
     }
 
-    public void Setup(Player currentItem, RoomScrollList currentScrollList) 
+    public void Setup(string socketID, string username, RoomScrollList currentScrollList) 
     {
-        item = currentItem;
-        roomNameLabel.text = item.userName;
+        this.socketID = socketID;
+        this.username = username;
+        roomNameLabel.text = this.username;
         scrollList = currentScrollList;
     }
 
     public void HandleClick()
     {
-        LobbyUIManager.instance.createPopup(item);
+        LobbyUIManager.instance.createPopup(socketID, username);
     }
 
 }

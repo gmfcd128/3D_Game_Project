@@ -24,7 +24,6 @@ public class Chat : MonoBehaviour
         Action<string> onNewMessage = updateChat;
         socket.On("newMessage", (data) =>
         {
-            Debug.Log("You've got message!!");
             onNewMessage(data.ToString());
         });
     }
@@ -46,6 +45,7 @@ public class Chat : MonoBehaviour
 
     void updateChat(string jsonString)
     {
+        Debug.Log("You've got message!!");
         Dictionary<string, string> message = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
         GameObject messageText = Instantiate(messagePrefab, chatDisplay.transform);
         messageText.GetComponent<Text>().text = message["speaker"] + ":" + message["message"];

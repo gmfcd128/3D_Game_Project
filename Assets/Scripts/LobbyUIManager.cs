@@ -14,6 +14,7 @@ public class LobbyUIManager : MonoBehaviour
     private string challengeMessage = null;
     private bool playerStatChanged = false;
     private bool newChallenge = false;
+    private bool requestAccepted = false;
     Dictionary<string, Player> onlinePlayers;
     private Socket socket;
     private ManualResetEvent ManualResetEvent = null;
@@ -122,8 +123,7 @@ public class LobbyUIManager : MonoBehaviour
             });
             socket.On("acceptChallenge", () =>
             {
-                Debug.Log("Challenge accepted.");
-                SceneManager.LoadScene("Game");
+                requestAccepted = true;
             });
         }
         socket.Emit("playerUnavailable", "");
@@ -167,6 +167,12 @@ public class LobbyUIManager : MonoBehaviour
         {
             newChallenge = false;
             challengeHandler();
+        }
+        if (requestAccepted)
+        {
+            requestAccepted = false;
+            Debug.Log("Challenge accepted.");
+            SceneManager.LoadScene("Game");
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Quobject.SocketIoClientDotNet.Client;
+﻿using Newtonsoft.Json;
+using Quobject.SocketIoClientDotNet.Client;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,16 +16,31 @@ public class GameManager : MonoBehaviour
     GameObject canvas;
     [SerializeField]
     Button quitGameButton;
+    [SerializeField]
+    Text hud;
+
+    private bool timerExpired = false;
+    private bool timerResumed = false;
+    private bool opponentQuit = false;
     void Start()
     {
         socket = Networking.instance.socket;
-        Action onOpponentQuit = opponentQuitHandler;
-        socket.On("opponentQuit", onOpponentQuit);
+        Action onServerReady = respondReadyState;
+        socket.On("opponentQuit", () => {opponentQuit = true; });
         quitGameButton.onClick.AddListener(() =>
         {
             socket.Emit("quitGame", "");
             SceneManager.LoadScene("Lobby");
         });
+        socket.On("yourTurn", () => { timerResumed = true; });
+        socket.On("standby", () => { timerExpired = true; });
+        socket.On("serverReady", onServerReady);
+        
+    }
+
+    void respondReadyState()
+    {
+        socket.Emit("playerReady", "");
     }
 
     void opponentQuitHandler()
@@ -44,6 +61,20 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (timerExpired)
+        {
+            timerExpired = false;
+            hud.text = "觀戰狀態";
+        }
+        if (timerResumed)
+        {
+            timerResumed = false;
+            hud.text = "輪到你了";
+        }
+        if (opponentQuit)
+        {
+            opponentQuit = false;
+            opponentQuitHandler();
+        }
     }
 }

@@ -16,15 +16,19 @@ public class Chat : MonoBehaviour
     [SerializeField]
     private GameObject messagePrefab;
     bool allowEnter;
+
+    private bool hasNewMessage;
+    private string msg;
     private Socket socket;
     // Start is called before the first frame update
     void Start()
     {
+        hasNewMessage = false;
         socket = Networking.instance.socket;
-        Action<string> onNewMessage = updateChat;
         socket.On("newMessage", (data) =>
         {
-            onNewMessage(data.ToString());
+            hasNewMessage = true;
+            msg = data.ToString();
         });
     }
 
@@ -40,6 +44,12 @@ public class Chat : MonoBehaviour
         else
         {
             allowEnter = messageInput.isFocused || messageInput.isFocused;
+        }
+
+        if (hasNewMessage)
+        {
+            hasNewMessage = false;
+            updateChat(msg);
         }
     }
 

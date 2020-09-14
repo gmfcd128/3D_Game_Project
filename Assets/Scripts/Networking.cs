@@ -30,8 +30,15 @@ public class Networking : MonoBehaviour
 
     void Awake()
     {
-        _instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(_instance.gameObject);
+        }
+        else if (this != _instance)
+        {
+            Destroy(this.gameObject);
+        }
         Debug.Log("Socket test.");
         socket = IO.Socket("http://" + url + ":3000");
         socket.On(Socket.EVENT_CONNECT, () =>

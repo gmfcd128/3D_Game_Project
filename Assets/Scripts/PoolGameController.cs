@@ -3,6 +3,7 @@ using System.Collections;
 using Frontend;
 using Quobject.SocketIoClientDotNet.Client;
 using GameStates;
+using System;
 
 public class PoolGameController : MonoBehaviour
 {
@@ -24,11 +25,11 @@ public class PoolGameController : MonoBehaviour
 
     public Frontend.Player CurrentPlayer;
     public Frontend.Player OtherPlayer;
+    public Frontend.Player mySelf;
 
     private bool currentPlayerContinuesToPlay = false;
 
     protected Socket socket;
-    public Test test;
 
     // This is kinda hacky but works
     static public PoolGameController GameInstance
@@ -41,9 +42,8 @@ public class PoolGameController : MonoBehaviour
     {
         socket = Networking.instance.socket;
         strikeDirection = Vector3.forward;
-        CurrentPlayer = new Frontend.Player("John");
-        OtherPlayer = new Frontend.Player("Doe");
-
+        mySelf = new Frontend.Player(Networking.username);
+        OtherPlayer = new Frontend.Player(Networking.opponentUsername);
         GameInstance = this;
         winnerMessage.GetComponent<Canvas>().enabled = false;
 
@@ -51,11 +51,13 @@ public class PoolGameController : MonoBehaviour
 
         socket.On("standby", () =>
         {
+            CurrentPlayer = OtherPlayer;
             currentState = new GameStates.WatchingState(this);
         });
 
         socket.On("yourTurn", () =>
         {
+            CurrentPlayer = mySelf;
             currentState = new GameStates.WaitingForStrikeState(this);
             Debug.Log("Test2");
       
@@ -92,11 +94,19 @@ public class PoolGameController : MonoBehaviour
             Debug.Log(CurrentPlayer.Name + " continues to play");
             return;
         }
-
-        Debug.Log(OtherPlayer.Name + " will play");
-        var aux = CurrentPlayer;
-        CurrentPlayer = OtherPlayer;
-        OtherPlayer = aux;
+        if (CurrentPlayer == mySelf)
+        {
+            Networking.instance.socket.Emit("nextTurn", "");
+            CurrentPlayer = OtherPlayer;
+            OtherPlayer = mySelf;
+        }
+        else
+        {
+            OtherPlayer = CurrentPlayer;
+            CurrentPlayer = mySelf;
+        }
+        
+        
     }
 
     public void EndMatch()

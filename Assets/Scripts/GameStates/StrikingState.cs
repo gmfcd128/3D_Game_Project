@@ -8,6 +8,7 @@ namespace GameStates {
 
 		private GameObject cue;
 		private GameObject cueBall;
+		SerializedTransform cueTrans;
 
 		private float cueDirection = -1;
 		private float speed = 7;
@@ -16,6 +17,7 @@ namespace GameStates {
 			gameController = (PoolGameController)parent;
 			cue = gameController.cue;
 			cueBall = gameController.cueBall;
+			cueTrans = new SerializedTransform();
 		}
 
 		public override void Update() {
@@ -30,7 +32,8 @@ namespace GameStates {
 			if (distance < PoolGameController.MIN_DISTANCE || distance > PoolGameController.MAX_DISTANCE)
 				cueDirection *= -1;
 			cue.transform.Translate(Vector3.down * speed * cueDirection * Time.fixedDeltaTime);
-			Networking.instance.socket.Emit("CuePositionChange", cue.transform);
+			cueTrans.SetValue(cue.transform);
+			Networking.instance.socket.Emit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
 		}
 	}
 }

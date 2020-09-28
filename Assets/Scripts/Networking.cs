@@ -11,6 +11,7 @@ public class Networking : MonoBehaviour
     [SerializeField]
     private string url = "localhost";
     public static string username { get; private set; }
+    public static string opponentUsername;
     public static string password { get; private set; }
     private string sessionCookie;
     public Socket socket { get; set; }

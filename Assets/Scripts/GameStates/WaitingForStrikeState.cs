@@ -43,6 +43,7 @@ namespace GameStates {
 			Debug.DrawLine(cueBall.transform.position, cueBall.transform.position + gameController.strikeDirection * 10);
 
 			if (Input.GetButtonDown("Fire1")) {
+				Networking.instance.socket.Emit("CueReleased", "");
 				gameController.currentState = new GameStates.StrikingState(gameController);
 			}
 		}

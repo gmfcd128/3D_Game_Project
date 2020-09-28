@@ -81,7 +81,7 @@ public class LobbyUIManager : MonoBehaviour
         createPopup(challengeMessage, onlinePlayers[challengeMessage].username, true);
     }
 
-    public void createPopup(string socketID, string username, bool notifyChallenge = false)
+    public void createPopup(string socketID, string messageUsername, bool notifyChallenge = false)
     {
         GameObject dialog = Instantiate(dialogPrefab, canvas.transform);
         Text messsage = dialog.transform.Find("Message").gameObject.GetComponent<Text>();
@@ -89,7 +89,8 @@ public class LobbyUIManager : MonoBehaviour
         Button button2 = dialog.transform.Find("ButtonGroup").gameObject.transform.GetChild(1).gameObject.GetComponent<Button>();
         if (notifyChallenge)
         {
-            messsage.text = "" + username + "想要挑戰你";
+            Networking.opponentUsername = messageUsername;
+            messsage.text = "" + messageUsername + "想要挑戰你";
             button1.GetComponentInChildren<Text>().text = "同意";
             button1.onClick.AddListener(() =>
             {
@@ -107,8 +108,9 @@ public class LobbyUIManager : MonoBehaviour
         }
         else
         {
+            Networking.opponentUsername = messageUsername;
             button2.gameObject.SetActive(false);
-            messsage.text = "正在等候" + username + "...";
+            messsage.text = "正在等候" + messageUsername + "...";
             button1.onClick.AddListener(() =>
             {
                 socket.Emit("joinGame", Networking.username);

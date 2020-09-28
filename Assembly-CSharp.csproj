@@ -69,7 +69,6 @@
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameStates\StrikeState.cs" />
     <Compile Include="Assets\Scripts\GameStates\StrikingState.cs" />
-    <Compile Include="Assets\Scripts\GameStates\Test.cs" />
     <Compile Include="Assets\Scripts\GameStates\WaitingForNextTurnState.cs" />
     <Compile Include="Assets\Scripts\GameStates\WaitingForStrikeState.cs" />
     <Compile Include="Assets\Scripts\GameStates\WatchingState.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="Assets\Scripts\RoomListItem.cs" />
     <Compile Include="Assets\Scripts\RoomScrollList.cs" />
     <Compile Include="Assets\Scripts\ScoreController.cs" />
+    <Compile Include="Assets\Scripts\SerializableVector3.cs" />
     <Compile Include="Assets\Scripts\SerializedTransform.cs" />
     <Compile Include="Assets\Scripts\SimpleObjectPool.cs" />
     <Compile Include="Assets\Scripts\SnookerBallController.cs" />

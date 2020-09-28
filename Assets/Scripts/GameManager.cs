@@ -19,9 +19,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Text hud;
 
-    private bool timerExpired = false;
-    private bool timerResumed = false;
+    private bool isPlaying = false;
     private bool opponentQuit = false;
+    private int remainingTime = 0;
     void Start()
     {
         socket = Networking.instance.socket;
@@ -32,9 +32,10 @@ public class GameManager : MonoBehaviour
             socket.Emit("quitGame", "");
             SceneManager.LoadScene("Lobby");
         });
-        socket.On("yourTurn", () => { timerResumed = true; });
-        socket.On("standby", () => { timerExpired = true; });
+        socket.On("yourTurn", () => { isPlaying = true; });
+        socket.On("standby", () => { isPlaying = false; });
         socket.On("serverReady", onServerReady);
+        socket.On("timer", (data) => { remainingTime = Int32.Parse(data.ToString()); });
         
     }
 
@@ -61,16 +62,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timerExpired)
+        if (!isPlaying)
         {
-            timerExpired = false;
             hud.text = "觀戰狀態";
         }
-        if (timerResumed)
+        else
         {
-            timerResumed = false;
             hud.text = "輪到你了";
+            if (remainingTime > 0)
+            {
+                hud.text += "(剩下" + remainingTime + "秒)";
+            }
         }
+       
         if (opponentQuit)
         {
             opponentQuit = false;

@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Quobject.SocketIoClientDotNet.Client;
 
 public class PocketsController : MonoBehaviour {
 	public GameObject redBalls;
 	public GameObject cueBall;
 
 	private Vector3 originalCueBallPosition;
+	private Socket socket;
 
 	void Start() {
 		originalCueBallPosition = cueBall.transform.position;

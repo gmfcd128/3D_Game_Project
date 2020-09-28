@@ -13,6 +13,8 @@ namespace GameStates
 		private GameObject cueBall;
 		private GameObject mainCamera;
 		protected Socket socket;
+		private bool cueBallHit;
+		private Vector3 cueBallForce;
 
 		private SerializedTransform cueTransSerialized;
 		private SerializedTransform cameraTransSerialized;
@@ -29,6 +31,8 @@ namespace GameStates
 
 			socket.On("CuePositionChange", OnCuepositionChange);
 			socket.On("CameraPositionChange", OnCameraPositionChange);
+			socket.On("CueBallStriked", CueBallHit);
+			cueBallHit = false;
 		}
 
 		protected void OnCuepositionChange(object data)
@@ -41,17 +45,30 @@ namespace GameStates
 			cameraTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(data.ToString()); ;
 		}
 
-		public override void Update()
+		void CueBallHit(object data)
 		{
+			Debug.Log("The cue ball is hit.");
+			cueBallForce = JsonConvert.DeserializeObject<SerializableVector3>(data.ToString());
+			cueBallHit = true;
+		}
+
+        public override void Update()
+        {
 			if (cameraTransSerialized != null && cueTransSerialized != null)
 			{
 				DeserialTransform(mainCamera.transform, serializedTransform: cameraTransSerialized);
 				DeserialTransform(cue.transform, cueTransSerialized);
 			}
-			
+
+			if (cueBallHit)
+			{
+				cue.GetComponent<Renderer>().enabled = false;
+				cueBall.GetComponent<Rigidbody>().AddForce(cueBallForce);
+				cueBallHit = false;
+			}
 		}
 
-		public static void DeserialTransform(Transform _transform, SerializedTransform serializedTransform)
+        public static void DeserialTransform(Transform _transform, SerializedTransform serializedTransform)
 		{
 			_transform.position = new Vector3(serializedTransform._position[0], serializedTransform._position[1], serializedTransform._position[2]);
 			_transform.rotation = new Quaternion(serializedTransform._rotation[0], serializedTransform._rotation[1], serializedTransform._rotation[2], serializedTransform._rotation[3]);

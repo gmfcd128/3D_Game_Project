@@ -59,8 +59,6 @@ public class PoolGameController : MonoBehaviour
         {
             CurrentPlayer = mySelf;
             currentState = new GameStates.WaitingForStrikeState(this);
-            Debug.Log("Test2");
-      
         });
 
     }
@@ -82,7 +80,9 @@ public class PoolGameController : MonoBehaviour
 
     public void BallPocketed(int ballNumber)
     {
-        currentPlayerContinuesToPlay = true;
+        if (CurrentPlayer.Equals(mySelf)) { 
+            currentPlayerContinuesToPlay = true;
+        }
         CurrentPlayer.Collect(ballNumber);
     }
 
@@ -100,11 +100,11 @@ public class PoolGameController : MonoBehaviour
             CurrentPlayer = OtherPlayer;
             OtherPlayer = mySelf;
         }
-        else
+        /*else
         {
             OtherPlayer = CurrentPlayer;
             CurrentPlayer = mySelf;
-        }
+        }*/
         
         
     }

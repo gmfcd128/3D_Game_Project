@@ -9,24 +9,34 @@ namespace GameStates {
 		private GameObject cue;
 		private GameObject cueBall;
 		private GameObject mainCamera;
+		private bool initialized = false;
 		SerializedTransform cameraTrans;
 		SerializedTransform cueTrans;
 
 		private PoolGameController gameController;
 
-		public WaitingForStrikeState(MonoBehaviour parent) : base(parent) { 
+		public WaitingForStrikeState(MonoBehaviour parent) : base(parent) {
+			Debug.Log("Oops!!");
 			gameController = (PoolGameController)parent;
 			cue = gameController.cue;
 			cueBall = gameController.cueBall;
 			mainCamera = gameController.mainCamera;
 			cameraTrans = new SerializedTransform();
 			cueTrans = new SerializedTransform();
-
-			cue.GetComponent<Renderer>().enabled = true;
+			initialized = true;
+			
 			Debug.Log("WaitingForStrike state enteted.");
 		}
 
 		public override void Update() {
+			if (initialized) {
+				//進行檢查，以免從其他State強制切過來的時候因為重複enable而當掉
+				if (cue.GetComponent<Renderer>().enabled == false)
+				{
+					cue.GetComponent<Renderer>().enabled = true;
+				}
+				initialized = false;
+			}
 			var x = Input.GetAxis("Horizontal");
 			
 			if (x != 0) {

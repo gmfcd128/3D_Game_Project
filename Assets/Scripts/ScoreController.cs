@@ -13,7 +13,7 @@ public class ScoreController : MonoBehaviour {
 	void Update () {
 		var text = GetComponent<UnityEngine.UI.Text>();
 		var currentPlayer = PoolGameController.GameInstance.CurrentPlayer;
-		var otherPlayer = PoolGameController.GameInstance.OtherPlayer;
+		var otherPlayer = PoolGameController.GameInstance.IdlePlayer;
 		text.text = String.Format("* {0} - {1}\n{2} - {3}", currentPlayer.Name, currentPlayer.Points, otherPlayer.Name, otherPlayer.Points);
 	}
 }

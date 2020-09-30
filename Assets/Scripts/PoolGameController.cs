@@ -24,8 +24,9 @@ public class PoolGameController : MonoBehaviour
     public IGameObjectState currentState;
 
     public Frontend.Player CurrentPlayer;
-    public Frontend.Player OtherPlayer;
-    public Frontend.Player mySelf;
+    public Frontend.Player IdlePlayer;
+    private Frontend.Player mySelf;
+    private Frontend.Player opponent; 
 
     private bool currentPlayerContinuesToPlay = false;
 
@@ -43,7 +44,8 @@ public class PoolGameController : MonoBehaviour
         socket = Networking.instance.socket;
         strikeDirection = Vector3.forward;
         mySelf = new Frontend.Player(Networking.username);
-        OtherPlayer = new Frontend.Player(Networking.opponentUsername);
+        opponent = new Frontend.Player(Networking.opponentUsername);
+        IdlePlayer = new Frontend.Player(Networking.opponentUsername);
         GameInstance = this;
         winnerMessage.GetComponent<Canvas>().enabled = false;
 
@@ -51,13 +53,15 @@ public class PoolGameController : MonoBehaviour
 
         socket.On("standby", () =>
         {
-            CurrentPlayer = OtherPlayer;
+            CurrentPlayer = opponent;
+            IdlePlayer = mySelf;
             currentState = new GameStates.WatchingState(this);
         });
 
         socket.On("yourTurn", () =>
         {
             CurrentPlayer = mySelf;
+            IdlePlayer = opponent;
             currentState = new GameStates.WaitingForStrikeState(this);
         });
 
@@ -80,9 +84,7 @@ public class PoolGameController : MonoBehaviour
 
     public void BallPocketed(int ballNumber)
     {
-        if (CurrentPlayer.Equals(mySelf)) { 
-            currentPlayerContinuesToPlay = true;
-        }
+        currentPlayerContinuesToPlay = true;
         CurrentPlayer.Collect(ballNumber);
     }
 
@@ -91,31 +93,31 @@ public class PoolGameController : MonoBehaviour
         if (currentPlayerContinuesToPlay)
         {
             currentPlayerContinuesToPlay = false;
+            Networking.instance.socket.Emit("continue", "");
             Debug.Log(CurrentPlayer.Name + " continues to play");
             return;
         }
-        if (CurrentPlayer == mySelf)
+        else
         {
-            Networking.instance.socket.Emit("nextTurn", "");
-            CurrentPlayer = OtherPlayer;
-            OtherPlayer = mySelf;
+            Debug.Log("CurrentPlayer: " + Networking.username);
+            Debug.Log("Opponent: " + Networking.opponentUsername);
+            if (CurrentPlayer.Equals(mySelf))
+            {
+                Networking.instance.socket.Emit("nextTurn", "");
+
+            }
         }
-        /*else
-        {
-            OtherPlayer = CurrentPlayer;
-            CurrentPlayer = mySelf;
-        }*/
-        
-        
+
+
     }
 
     public void EndMatch()
     {
         Frontend.Player winner = null;
-        if (CurrentPlayer.Points > OtherPlayer.Points)
+        if (CurrentPlayer.Points > IdlePlayer.Points)
             winner = CurrentPlayer;
-        else if (CurrentPlayer.Points < OtherPlayer.Points)
-            winner = OtherPlayer;
+        else if (CurrentPlayer.Points < IdlePlayer.Points)
+            winner = IdlePlayer;
 
         var msg = "Game Over\n";
 

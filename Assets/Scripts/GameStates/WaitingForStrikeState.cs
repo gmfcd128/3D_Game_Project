@@ -12,6 +12,7 @@ namespace GameStates {
 		private bool initialized = false;
 		SerializedTransform cameraTrans;
 		SerializedTransform cueTrans;
+		SerializableVector3 strikeDir;
 
 		private PoolGameController gameController;
 
@@ -23,6 +24,7 @@ namespace GameStates {
 			mainCamera = gameController.mainCamera;
 			cameraTrans = new SerializedTransform();
 			cueTrans = new SerializedTransform();
+			strikeDir = new SerializableVector3();
 			initialized = true;
 			
 			Debug.Log("WaitingForStrike state enteted.");
@@ -42,6 +44,8 @@ namespace GameStates {
 			if (x != 0) {
 				var angle = x * 75 * Time.deltaTime;
 				gameController.strikeDirection = Quaternion.AngleAxis(angle, Vector3.up) * gameController.strikeDirection;
+				strikeDir = gameController.strikeDirection;
+				Networking.instance.socket.Emit("StrikeDirectionChange", JsonConvert.SerializeObject(strikeDir));
 				mainCamera.transform.RotateAround(cueBall.transform.position, Vector3.up, angle);
 				//Unity的transform屬性無法被序列化以透過網路傳送，故須經過此轉換
 				cameraTrans.SetValue(mainCamera.transform);

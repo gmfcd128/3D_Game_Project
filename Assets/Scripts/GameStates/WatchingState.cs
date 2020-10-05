@@ -19,6 +19,7 @@ namespace GameStates
 
         private SerializedTransform cueTransSerialized;
         private SerializedTransform cameraTransSerialized;
+        private SerializableVector3 strikeDir;
 
         private PoolGameController gameController;
         public WatchingState(MonoBehaviour parent) : base(parent)
@@ -32,6 +33,8 @@ namespace GameStates
 
             socket.On("CuePositionChange", OnCuepositionChange);
             socket.On("CameraPositionChange", OnCameraPositionChange);
+            socket.On("StrikeDirectionChange", OnStrikeDirectionChange);
+            
             socket.On("CueBallStriked", CueBallHit);
             socket.On("continue", () => { cueStickEnable = true; });
             cueBallHit = false;
@@ -39,12 +42,17 @@ namespace GameStates
 
         protected void OnCuepositionChange(object data)
         {
-            cueTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(data.ToString()); ;
+            cueTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(data.ToString()); 
         }
 
         void OnCameraPositionChange(object data)
         {
-            cameraTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(data.ToString()); ;
+            cameraTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(data.ToString()); 
+        }
+
+        void OnStrikeDirectionChange(object data)
+        { 
+            strikeDir = JsonConvert.DeserializeObject<SerializableVector3>(data.ToString()); 
         }
 
         void CueBallHit(object data)
@@ -60,6 +68,7 @@ namespace GameStates
             {
                 DeserialTransform(mainCamera.transform, serializedTransform: cameraTransSerialized);
                 DeserialTransform(cue.transform, cueTransSerialized);
+                gameController.strikeDirection = strikeDir;
             }
 
             if (cueBallHit)

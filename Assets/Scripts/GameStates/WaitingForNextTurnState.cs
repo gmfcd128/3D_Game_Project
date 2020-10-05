@@ -54,7 +54,7 @@ namespace GameStates
                 var cueBallBody = cueBall.GetComponent<Rigidbody>();
                 if (!(cueBallBody.IsSleeping() || cueBallBody.velocity == Vector3.zero))
                     return;
-                JObject redBallsTransform = new JObject();
+                /*JObject redBallsTransform = new JObject();
                 foreach (Transform child in redBalls.transform)
                 {
                     redBallTransform.SetValue(child.transform);
@@ -66,7 +66,7 @@ namespace GameStates
                 {
                     if (!(rigidbody.IsSleeping() || rigidbody.velocity == Vector3.zero))
                         return;
-                }
+                }*/
 
                 gameController.NextPlayer();
                 // If all balls are sleeping, time for the next turn

@@ -40,7 +40,7 @@ namespace GameStates {
 				initialized = false;
 			}
 			var x = Input.GetAxis("Horizontal");
-			
+			var y = Input.GetAxis("Vertical");
 			if (x != 0) {
 				var angle = x * 75 * Time.deltaTime;
 				gameController.strikeDirection = Quaternion.AngleAxis(angle, Vector3.up) * gameController.strikeDirection;
@@ -55,7 +55,21 @@ namespace GameStates {
 				Networking.instance.socket.Emit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
 			}
 			Debug.DrawLine(cueBall.transform.position, cueBall.transform.position + gameController.strikeDirection * 10);
-
+			
+			if (y != 0)
+			{
+				var angle2 = y * 50 * Time.deltaTime;
+				gameController.strikeDirection = Quaternion.AngleAxis(angle2, Vector3.forward) * gameController.strikeDirection;
+				strikeDir = gameController.strikeDirection;
+				Networking.instance.socket.Emit("StrikeDirectionChange", JsonConvert.SerializeObject(strikeDir));
+				mainCamera.transform.RotateAround(cueBall.transform.position, Vector3.forward, angle2);
+				//Unity的transform屬性無法被序列化以透過網路傳送，故須經過此轉換
+				cameraTrans.SetValue(mainCamera.transform);
+				Networking.instance.socket.Emit("CameraPositionChange", JsonConvert.SerializeObject(cameraTrans));
+				cue.transform.RotateAround(cueBall.transform.position, Vector3.forward, angle2);
+				cueTrans.SetValue(cue.transform);
+				Networking.instance.socket.Emit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
+			}
 			if (Input.GetButtonDown("Fire1")) {
 				Networking.instance.socket.Emit("CueReleased", "");
 				gameController.currentState = new GameStates.StrikingState(gameController);

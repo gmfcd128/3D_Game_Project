@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2390272}
   - component: {fileID: 5462872}
   - component: {fileID: 11414120}
+  - component: {fileID: 6244961880384362787}
   m_Layer: 0
   m_Name: SnookerBall
   m_TagString: Untagged
@@ -119,5 +120,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38d9019c15fb21744848d87ba938eb35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6244961880384362787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6125f7ced16e4140b66a1e3ef9f7d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

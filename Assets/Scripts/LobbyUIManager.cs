@@ -55,6 +55,7 @@ public class LobbyUIManager : MonoBehaviour
             newChallenge = true;
         });
         socket.Emit("joinGame", Networking.username);
+        AudioManager.instance.PlayDefaultMusic();
     }
 
     void updatePlayerList()

@@ -44,7 +44,9 @@ namespace GameStates {
 			if (x != 0) {
 				var angle = x * 75 * Time.deltaTime;
 				gameController.strikeDirection = Quaternion.AngleAxis(angle, Vector3.up) * gameController.strikeDirection;
-				strikeDir = gameController.strikeDirection;
+				Debug.Log(gameController.strikeDirection);
+				strikeDir = (SerializableVector3)gameController.strikeDirection;
+				Debug.Log(strikeDir);
 				Networking.instance.socket.Emit("StrikeDirectionChange", JsonConvert.SerializeObject(strikeDir));
 				mainCamera.transform.RotateAround(cueBall.transform.position, Vector3.up, angle);
 				//Unity的transform屬性無法被序列化以透過網路傳送，故須經過此轉換

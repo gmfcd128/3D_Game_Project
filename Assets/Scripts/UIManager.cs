@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
+        StartCoroutine(AudioManager.instance.PlayDefaultMusic());
     }
 
 

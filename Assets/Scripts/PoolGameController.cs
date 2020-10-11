@@ -48,6 +48,7 @@ public class PoolGameController : MonoBehaviour
         IdlePlayer = new Frontend.Player(Networking.opponentUsername);
         GameInstance = this;
         winnerMessage.GetComponent<Canvas>().enabled = false;
+        StartCoroutine(AudioManager.instance.PlayGameMusic());
 
         currentState = new GameStates.WaitingForStrikeState(this);
 

@@ -68,7 +68,12 @@ namespace GameStates
             {
                 DeserialTransform(mainCamera.transform, serializedTransform: cameraTransSerialized);
                 DeserialTransform(cue.transform, cueTransSerialized);
-                gameController.strikeDirection = strikeDir;
+            }
+
+            if(strikeDir.x != 0 || strikeDir.y != 0 || strikeDir.z != 0)
+            {
+                gameController.strikeDirection = (Vector3)strikeDir;
+                Debug.Log(strikeDir);
             }
 
             if (cueBallHit)

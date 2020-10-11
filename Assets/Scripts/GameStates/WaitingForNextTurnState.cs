@@ -40,11 +40,12 @@ namespace GameStates
             cameraRotation = mainCamera.transform.rotation;
             cueOffset = cueBall.transform.position - cue.transform.position;
             cueRotation = cue.transform.rotation;
+            Debug.Log("WaitingForNextTurn...");
         }
 
         public override void FixedUpdate()
         {
-            Debug.Log(redBalls.GetComponentsInChildren<Transform>().Length);
+            //Debug.Log(redBalls.GetComponentsInChildren<Transform>().Length);
             if (redBalls.GetComponentsInChildren<Transform>().Length == 1)
             {
                 gameController.EndMatch();
@@ -61,12 +62,13 @@ namespace GameStates
                     redBallsTransform.Add(new JProperty(child.gameObject.name, JsonConvert.SerializeObject(redBallTransform)));
                 }
                 socket.Emit("redBallsTransform", redBallsTransform.ToString());
+                */
 
                 foreach (var rigidbody in redBalls.GetComponentsInChildren<Rigidbody>())
                 {
                     if (!(rigidbody.IsSleeping() || rigidbody.velocity == Vector3.zero))
                         return;
-                }*/
+                }
 
                 gameController.NextPlayer();
                 // If all balls are sleeping, time for the next turn

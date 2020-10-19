@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ball
   - Cue
+  - Cushion
   layers:
   - Default
   - TransparentFX

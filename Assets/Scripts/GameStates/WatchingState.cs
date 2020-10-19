@@ -21,6 +21,8 @@ namespace GameStates
         private SerializedTransform cameraTransSerialized;
         private SerializableVector3 strikeDir;
 
+        Transform currentPlayerCamera;
+
         private PoolGameController gameController;
         public WatchingState(MonoBehaviour parent) : base(parent)
         {
@@ -30,14 +32,26 @@ namespace GameStates
             cue = gameController.cue;
             cueBall = gameController.cueBall;
             mainCamera = gameController.mainCamera;
+            currentPlayerCamera = mainCamera.transform;
+            InvertCameraPosition();
 
             socket.On("CuePositionChange", OnCuepositionChange);
             socket.On("CameraPositionChange", OnCameraPositionChange);
             socket.On("StrikeDirectionChange", OnStrikeDirectionChange);
-            
+
             socket.On("CueBallStriked", CueBallHit);
             socket.On("continue", () => { cueStickEnable = true; });
             cueBallHit = false;
+        }
+
+        private void InvertCameraPosition()
+        {
+            mainCamera.transform.position = new Vector3(cueBall.transform.position.x + (cueBall.transform.position.x - currentPlayerCamera.position.x),
+                                                        currentPlayerCamera.transform.position.y,
+                                                        cueBall.transform.position.z + (cueBall.transform.position.z - currentPlayerCamera.position.z));
+            Vector3 cameraRot = currentPlayerCamera.transform.rotation.eulerAngles;
+            cameraRot = new Vector3(cameraRot.x, cameraRot.y + 180, cameraRot.z);
+            mainCamera.transform.rotation = Quaternion.Euler(cameraRot);
         }
 
         protected void OnCuepositionChange(object data)
@@ -66,8 +80,9 @@ namespace GameStates
         {
             if (cameraTransSerialized != null && cueTransSerialized != null)
             {
-                DeserialTransform(mainCamera.transform, serializedTransform: cameraTransSerialized);
+                DeserialTransform(currentPlayerCamera, serializedTransform: cameraTransSerialized);
                 DeserialTransform(cue.transform, cueTransSerialized);
+                InvertCameraPosition();
             }
 
             if(strikeDir.x != 0 || strikeDir.y != 0 || strikeDir.z != 0)

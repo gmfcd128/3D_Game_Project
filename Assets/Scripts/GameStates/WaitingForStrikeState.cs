@@ -25,20 +25,15 @@ namespace GameStates {
 			cameraTrans = new SerializedTransform();
 			cueTrans = new SerializedTransform();
 			strikeDir = new SerializableVector3();
-			initialized = true;
-			
+			if (cue.GetComponent<Renderer>().enabled == false)
+			{
+				cue.GetComponent<Renderer>().enabled = true;
+			}
+			InvertCameraPosition();
 			Debug.Log("WaitingForStrike state enteted.");
 		}
 
 		public override void Update() {
-			if (initialized) {
-				//進行檢查，以免從其他State強制切過來的時候因為重複enable而當掉
-				if (cue.GetComponent<Renderer>().enabled == false)
-				{
-					cue.GetComponent<Renderer>().enabled = true;
-				}
-				initialized = false;
-			}
 			var x = Input.GetAxis("Horizontal");
 			var y = Input.GetAxis("Vertical");
 			if (x != 0) {
@@ -76,6 +71,16 @@ namespace GameStates {
 				Networking.instance.socket.Emit("CueReleased", "");
 				gameController.currentState = new GameStates.StrikingState(gameController);
 			}
+		}
+
+		private void InvertCameraPosition()
+		{
+			mainCamera.transform.position = new Vector3(cueBall.transform.position.x + (cueBall.transform.position.x - mainCamera.transform.position.x),
+														mainCamera.transform.position.y,
+														cueBall.transform.position.z + (cueBall.transform.position.z - mainCamera.transform.position.z));
+			Vector3 cameraRot = mainCamera.transform.rotation.eulerAngles;
+			cameraRot = new Vector3(cameraRot.x, cameraRot.y + 180, cameraRot.z);
+			mainCamera.transform.rotation = Quaternion.Euler(cameraRot);
 		}
 	}
 }

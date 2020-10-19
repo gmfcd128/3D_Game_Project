@@ -31,7 +31,7 @@ public class CollisionAudioStatus : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D other)
+    void OnCollisionExit(Collision other)
     {
         if (other.gameObject.tag == "Ball")
         {

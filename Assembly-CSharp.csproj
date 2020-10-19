@@ -63,10 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AudioManager.cs" />
-    <Compile Include="Assets\MouseAudio.cs" />
-    <Compile Include="Assets\PoolAudio.cs" />
     <Compile Include="Assets\Scripts\AbstractGameObjectState.cs" />
+    <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\BallCollisionAudio.cs" />
     <Compile Include="Assets\Scripts\ButtonAudio.cs" />
     <Compile Include="Assets\Scripts\Chat.cs" />
@@ -80,9 +78,11 @@
     <Compile Include="Assets\Scripts\GameStates\WatchingState.cs" />
     <Compile Include="Assets\Scripts\IGameObjectState.cs" />
     <Compile Include="Assets\Scripts\LobbyUIManager.cs" />
+    <Compile Include="Assets\Scripts\MouseAudio.cs" />
     <Compile Include="Assets\Scripts\Networking.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PocketsController.cs" />
+    <Compile Include="Assets\Scripts\PoolAudio.cs" />
     <Compile Include="Assets\Scripts\PoolGameController.cs" />
     <Compile Include="Assets\Scripts\RoomListItem.cs" />
     <Compile Include="Assets\Scripts\RoomScrollList.cs" />
@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\SerializedTransform.cs" />
     <Compile Include="Assets\Scripts\SimpleObjectPool.cs" />
     <Compile Include="Assets\Scripts\SnookerBallController.cs" />
+    <Compile Include="Assets\Scripts\TableCollisionAudio.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <None Include="Assets\Newtonsoft.Json.xml" />
     <None Include="Assets\PoolTable\archibase.net.txt" />

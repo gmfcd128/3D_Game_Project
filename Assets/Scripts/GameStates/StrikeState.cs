@@ -19,6 +19,7 @@ namespace GameStates
 
         private float speed = 30f;
         private float force = 0f;
+        private float relativeDistance;
 
         public StrikeState(MonoBehaviour parent) : base(parent)
         {
@@ -28,7 +29,7 @@ namespace GameStates
             cueBall = gameController.cueBall;
             cueTrans = new SerializedTransform();
             var forceAmplitude = gameController.maxForce - gameController.minForce;
-            var relativeDistance = (Vector3.Distance(cue.transform.position, cueBall.transform.position) - PoolGameController.MIN_DISTANCE) / (PoolGameController.MAX_DISTANCE - PoolGameController.MIN_DISTANCE);
+            relativeDistance = (Vector3.Distance(cue.transform.position, cueBall.transform.position) - PoolGameController.MIN_DISTANCE) / (PoolGameController.MAX_DISTANCE - PoolGameController.MIN_DISTANCE);
             force = forceAmplitude * relativeDistance + gameController.minForce;
             Debug.Log("Strike state enteted.");
         }
@@ -39,7 +40,7 @@ namespace GameStates
             if (distance < PoolGameController.MIN_DISTANCE)
             {
                 cueBall.GetComponent<Rigidbody>().AddForce(gameController.strikeDirection * force);
-                BallCollisionAudio.instance.PlayStrikeSound(cueBall.transform.position, gameController.strikeDirection * force);
+                BallCollisionAudio.instance.PlayStrikeSound(cueBall.transform.position, relativeDistance);
                 cue.GetComponent<Renderer>().enabled = false;
                 cueBallForce = gameController.strikeDirection * force;
                 Debug.Log(gameController.strikeDirection);

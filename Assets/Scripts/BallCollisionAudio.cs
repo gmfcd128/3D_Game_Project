@@ -41,8 +41,21 @@ public class BallCollisionAudio : MonoBehaviour
         }
     }
 
-    public void PlayStrikeSound(Vector3 position, Vector3 force)
+    public void PlayStrikeSound(Vector3 position, float relativeDistance)
     {
-        AudioSource.PlayClipAtPoint(PoolAudio.instance.cueAudio, position, 1.0F * (force.magnitude / 100));
+        Debug.Log("Strike Audio Volume : " + relativeDistance);
+        AudioSource.PlayClipAtPoint(PoolAudio.instance.cueAudio, position, 1.0F * relativeDistance);
+    }
+
+    public float Saturate(float value, int threshold)
+    {
+        if (value > threshold)
+        {
+            return threshold;
+        }
+        else
+        {
+            return value;
+        }
     }
 }

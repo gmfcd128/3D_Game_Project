@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Quobject.SocketIoClientDotNet.Client;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -18,15 +20,21 @@ public class GameManager : MonoBehaviour
     Button quitGameButton;
     [SerializeField]
     Text hud;
+    [SerializeField]
+    Image myAvatar;
+    [SerializeField]
+    Image opponentAvatar;
 
     private bool isPlaying = false;
     private bool opponentQuit = false;
     private int remainingTime = 0;
     void Start()
     {
+        StartCoroutine(downloadAvatar(Networking.username, myAvatar));
+        StartCoroutine(downloadAvatar(Networking.opponentUsername, opponentAvatar));
         socket = Networking.instance.socket;
         Action onServerReady = respondReadyState;
-        socket.On("opponentQuit", () => {opponentQuit = true; });
+        socket.On("opponentQuit", () => { opponentQuit = true; });
         quitGameButton.onClick.AddListener(() =>
         {
             socket.Emit("quitGame", "");
@@ -36,7 +44,7 @@ public class GameManager : MonoBehaviour
         socket.On("standby", () => { isPlaying = false; });
         socket.On("serverReady", onServerReady);
         socket.On("timer", (data) => { remainingTime = Int32.Parse(data.ToString()); });
-        
+
     }
 
     void respondReadyState()
@@ -65,20 +73,42 @@ public class GameManager : MonoBehaviour
         if (!isPlaying)
         {
             hud.text = "觀戰狀態";
+            myAvatar.gameObject.GetComponent<Outline>().enabled = false;
+            opponentAvatar.gameObject.GetComponent<Outline>().enabled = true;
         }
         else
         {
             hud.text = "輪到你了";
+            myAvatar.gameObject.GetComponent<Outline>().enabled = true;
+            opponentAvatar.gameObject.GetComponent<Outline>().enabled = false;
             if (remainingTime > 0)
             {
                 hud.text += "(剩下" + remainingTime + "秒)";
             }
         }
-       
+
         if (opponentQuit)
         {
             opponentQuit = false;
             opponentQuitHandler();
+        }
+    }
+
+    IEnumerator downloadAvatar(string username, Image target)
+    {
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(Networking.instance.url + ":3000/avatar?username=" + username);
+
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Texture2D avatarImage = DownloadHandlerTexture.GetContent(www); ;
+            target.sprite = Sprite.Create(avatarImage, new Rect(0f, 0f, avatarImage.width, avatarImage.height), new Vector2(0.5f, 0.5f));
+            Debug.Log("Avatar download completed.");
         }
     }
 }

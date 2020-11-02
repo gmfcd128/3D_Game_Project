@@ -6,10 +6,13 @@ using Newtonsoft.Json;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using Quobject.SocketIoClientDotNet.Client;
+using System;
+using System.IO;
+
 public class Networking : MonoBehaviour
 {
     [SerializeField]
-    private string url = "localhost";
+    public string url = "localhost";
     public static string username;
     public static string opponentUsername;
     public static string password;
@@ -63,6 +66,11 @@ public class Networking : MonoBehaviour
         StartCoroutine(SignUp());
     }
 
+    public void UpdateAvatar(string path, Action onComplete)
+    {
+        StartCoroutine(uploadAvatar(path));
+    }
+
     string GetAuthRequestString()
     {
         string auth = username + ":" + password;
@@ -74,7 +82,7 @@ public class Networking : MonoBehaviour
     IEnumerator Login()
     {
         string authorization = GetAuthRequestString();
-        UnityWebRequest request = new UnityWebRequest("http://" + url + ":3000/users/login", "POST");
+        UnityWebRequest request = new UnityWebRequest("http://" + url + ":3000/login", "POST");
         Debug.Log(url + ":3000/users/login");
         request.useHttpContinue = false;
         request.chunkedTransfer = false;
@@ -109,6 +117,31 @@ public class Networking : MonoBehaviour
         }
     }
 
+    IEnumerator uploadAvatar(string path)
+    {
+        
+        byte[] photoByte = File.ReadAllBytes(path);
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormFileSection("upload", photoByte, path, null));
+        string authorization = GetAuthRequestString();
+        UnityWebRequest www = UnityWebRequest.Post("http://" + url + ":3000/avatar", formData);
+        www.SetRequestHeader("Cookie", sessionCookie);
+        www.useHttpContinue = false;
+        www.chunkedTransfer = false;
+
+        Debug.Log(url + ":3000/avatar");
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
+    }
+
     IEnumerator SignUp()
     {
         UnityWebRequest request = new UnityWebRequest(url + ":3000/users/signup", "POST");
@@ -133,6 +166,25 @@ public class Networking : MonoBehaviour
             Debug.Log(result);
             UIManager.instance.ShowMessage(result);
         }
+
+    }
+
+    //close the connection when exit the lobby scene, but not when switch to game.
+    private void OnDestroy()
+    {
+        if (!IsEditor)
+            return;
+
+        if (socket != null)
+        {
+            socket.Disconnect();
+            socket = null;
+        }
+    }
+
+    private bool IsEditor
+    {
+        get { return !Application.isPlaying; }
 
     }
 

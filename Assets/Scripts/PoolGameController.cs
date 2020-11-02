@@ -25,8 +25,8 @@ public class PoolGameController : MonoBehaviour
 
     public Frontend.Player CurrentPlayer;
     public Frontend.Player IdlePlayer;
-    private Frontend.Player mySelf;
-    private Frontend.Player opponent; 
+    public Frontend.Player mySelf;
+    public Frontend.Player opponent; 
 
     private bool currentPlayerContinuesToPlay = false;
 

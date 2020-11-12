@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator downloadAvatar(string username, Image target)
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(Networking.instance.url + ":3000/avatar?username=" + username);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(Networking.url + ":3000/avatar?username=" + Networking.username);
 
         yield return www.SendWebRequest();
 

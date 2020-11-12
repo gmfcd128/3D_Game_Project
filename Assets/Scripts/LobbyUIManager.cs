@@ -23,8 +23,6 @@ public class LobbyUIManager : MonoBehaviour
     private GameObject canvas;
     private RoomScrollList scrollList;
     public GameObject dialogPrefab;
-    [SerializeField]
-    private Image avatar;
 
     private static LobbyUIManager _instance;
     public static LobbyUIManager instance
@@ -60,7 +58,6 @@ public class LobbyUIManager : MonoBehaviour
         });
         socket.Emit("joinGame", Networking.username);
         AudioManager.instance.PlayDefaultMusic();
-        StartCoroutine(downloadAvatar());
     }
 
     void updatePlayerList()
@@ -81,23 +78,7 @@ public class LobbyUIManager : MonoBehaviour
         Debug.Log("addRoom function entered!");
     }
 
-    IEnumerator downloadAvatar()
-    {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(Networking.instance.url + ":3000/avatar?username=" + Networking.username);
-
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Texture2D avatarImage = DownloadHandlerTexture.GetContent(www); ;
-            avatar.sprite = Sprite.Create(avatarImage, new Rect(0f, 0f, avatarImage.width, avatarImage.height), new Vector2(0.5f, 0.5f));
-            Debug.Log("Avatar download completed.");
-        }
-    }
+    
 
     private void challengeHandler()
     {

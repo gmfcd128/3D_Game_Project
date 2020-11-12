@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ScoreController : MonoBehaviour {
-
+	public Text opponentScore;
+	public Text myScore;
 	// Use this for initialization
 	void Start () {
 	
@@ -11,9 +13,9 @@ public class ScoreController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		var text = GetComponent<UnityEngine.UI.Text>();
-		var currentPlayer = PoolGameController.GameInstance.CurrentPlayer;
-		var otherPlayer = PoolGameController.GameInstance.IdlePlayer;
-		text.text = String.Format("* {0} - {1}\n{2} - {3}", currentPlayer.Name, currentPlayer.Points, otherPlayer.Name, otherPlayer.Points);
+		var mySelf = PoolGameController.GameInstance.mySelf;
+		var opponent = PoolGameController.GameInstance.opponent;
+		myScore.text = mySelf.Points.ToString();
+		opponentScore.text = opponent.Points.ToString();
 	}
 }

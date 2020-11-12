@@ -12,11 +12,11 @@ using System.IO;
 public class Networking : MonoBehaviour
 {
     [SerializeField]
-    public string url = "localhost";
+    public static string url = "localhost";
     public static string username;
     public static string opponentUsername;
     public static string password;
-    private string sessionCookie;
+    public static string sessionCookie { get; private set; }
     public Socket socket { get; set; }
 
     private static Networking _instance;
@@ -66,12 +66,8 @@ public class Networking : MonoBehaviour
         StartCoroutine(SignUp());
     }
 
-    public void UpdateAvatar(string path, Action onComplete)
-    {
-        StartCoroutine(uploadAvatar(path));
-    }
 
-    string GetAuthRequestString()
+    public string GetAuthRequestString()
     {
         string auth = username + ":" + password;
         auth = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(auth));
@@ -117,30 +113,7 @@ public class Networking : MonoBehaviour
         }
     }
 
-    IEnumerator uploadAvatar(string path)
-    {
-        
-        byte[] photoByte = File.ReadAllBytes(path);
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-        formData.Add(new MultipartFormFileSection("upload", photoByte, path, null));
-        string authorization = GetAuthRequestString();
-        UnityWebRequest www = UnityWebRequest.Post("http://" + url + ":3000/avatar", formData);
-        www.SetRequestHeader("Cookie", sessionCookie);
-        www.useHttpContinue = false;
-        www.chunkedTransfer = false;
-
-        Debug.Log(url + ":3000/avatar");
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log("Form upload complete!");
-        }
-    }
+    
 
     IEnumerator SignUp()
     {

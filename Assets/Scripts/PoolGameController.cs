@@ -12,7 +12,6 @@ public class PoolGameController : MonoBehaviour
     public GameObject redBalls;
     public GameObject mainCamera;
     public GameObject scoreBar;
-    public GameObject winnerMessage;
 
     public float maxForce;
     public float minForce;
@@ -29,6 +28,7 @@ public class PoolGameController : MonoBehaviour
     public Frontend.Player opponent; 
 
     private bool currentPlayerContinuesToPlay = false;
+    private bool firstEntry = true;
 
     protected Socket socket;
 
@@ -47,7 +47,6 @@ public class PoolGameController : MonoBehaviour
         opponent = new Frontend.Player(Networking.opponentUsername);
         IdlePlayer = new Frontend.Player(Networking.opponentUsername);
         GameInstance = this;
-        winnerMessage.GetComponent<Canvas>().enabled = false;
         StartCoroutine(AudioManager.instance.PlayGameMusic());
 
         currentState = new GameStates.WaitingForStrikeState(this);
@@ -56,6 +55,10 @@ public class PoolGameController : MonoBehaviour
         {
             CurrentPlayer = opponent;
             IdlePlayer = mySelf;
+            if (firstEntry)
+            {
+                firstEntry = false;
+            }
             currentState = new GameStates.WatchingState(this);
         });
 
@@ -63,7 +66,16 @@ public class PoolGameController : MonoBehaviour
         {
             CurrentPlayer = mySelf;
             IdlePlayer = opponent;
+            Debug.Log(currentState.GetType());
             currentState = new GameStates.WaitingForStrikeState(this);
+            if (firstEntry)
+            {
+                firstEntry = false;
+            }
+            else
+            {
+                InvertCameraPosition();
+            }
         });
 
     }
@@ -112,6 +124,28 @@ public class PoolGameController : MonoBehaviour
 
     }
 
+    public void InvertCameraPosition()
+    {
+        Debug.Log("InvertCameraPosition");
+        mainCamera.transform.position = new Vector3(cueBall.transform.position.x + (cueBall.transform.position.x - mainCamera.transform.position.x),
+                                                    mainCamera.transform.position.y,
+                                                    cueBall.transform.position.z + (cueBall.transform.position.z - mainCamera.transform.position.z));
+        Vector3 cameraRot = mainCamera.transform.rotation.eulerAngles;
+        cameraRot = new Vector3(cameraRot.x, cameraRot.y + 180, cameraRot.z);
+        mainCamera.transform.rotation = Quaternion.Euler(cameraRot);
+    }
+
+    public void InvertCameraPosition(Transform currentPlayerCamera)
+    {
+        Debug.Log("InvertCameraPosition");
+        mainCamera.transform.position = new Vector3(cueBall.transform.position.x + (cueBall.transform.position.x - currentPlayerCamera.position.x),
+                                                    currentPlayerCamera.transform.position.y,
+                                                    cueBall.transform.position.z + (cueBall.transform.position.z - currentPlayerCamera.position.z));
+        Vector3 cameraRot = currentPlayerCamera.transform.rotation.eulerAngles;
+        cameraRot = new Vector3(cameraRot.x, cameraRot.y + 180, cameraRot.z);
+        mainCamera.transform.rotation = Quaternion.Euler(cameraRot);
+    }
+
     public void EndMatch()
     {
         Frontend.Player winner = null;
@@ -120,15 +154,15 @@ public class PoolGameController : MonoBehaviour
         else if (CurrentPlayer.Points < IdlePlayer.Points)
             winner = IdlePlayer;
 
-        var msg = "Game Over\n";
+        var msg = "遊戲結束\n";
 
         if (winner != null)
-            msg += string.Format("The winner is '{0}'", winner.Name);
+            msg += string.Format("'{0}' 贏了", winner.Name);
         else
-            msg += "It was a draw!";
+            msg += "平手.";
 
-        var text = winnerMessage.GetComponentInChildren<UnityEngine.UI.Text>();
-        text.text = msg;
-        winnerMessage.GetComponent<Canvas>().enabled = true;
+        GameManager.instance.displayMatchResult(msg);
     }
+
+ 
 }

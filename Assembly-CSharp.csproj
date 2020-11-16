@@ -47,6 +47,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
+    <UnityProjectGeneratorVersion>4.8.2.0</UnityProjectGeneratorVersion>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2018.4.28f1</UnityVersion>
@@ -70,6 +71,7 @@
     <Compile Include="Assets\Scripts\ButtonAudio.cs" />
     <Compile Include="Assets\Scripts\Chat.cs" />
     <Compile Include="Assets\Scripts\CollisionAudioStatus.cs" />
+    <Compile Include="Assets\Scripts\DestroyBall.cs" />
     <Compile Include="Assets\Scripts\ExecuteOnMainThread.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameStates\StrikeState.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Assets\Scripts\GameStates\WaitingForNextTurnState.cs" />
     <Compile Include="Assets\Scripts\GameStates\WaitingForStrikeState.cs" />
     <Compile Include="Assets\Scripts\GameStates\WatchingState.cs" />
+    <Compile Include="Assets\Scripts\Hint.cs" />
     <Compile Include="Assets\Scripts\IGameObjectState.cs" />
     <Compile Include="Assets\Scripts\LobbyUIManager.cs" />
     <Compile Include="Assets\Scripts\MouseAudio.cs" />

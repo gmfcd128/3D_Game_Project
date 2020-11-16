@@ -422,7 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e2120976acac9e4fa0810b19d7a1097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: localhost
 --- !u!4 &260842166
 Transform:
   m_ObjectHideFlags: 0
@@ -1355,8 +1354,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1272465419}
   m_TextComponent: {fileID: 1061919454}
   m_Placeholder: {fileID: 1568038866}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0

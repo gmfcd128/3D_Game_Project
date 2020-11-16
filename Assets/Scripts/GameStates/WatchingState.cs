@@ -33,7 +33,6 @@ namespace GameStates
             cueBall = gameController.cueBall;
             mainCamera = gameController.mainCamera;
             currentPlayerCamera = mainCamera.transform;
-            InvertCameraPosition();
 
             socket.On("CuePositionChange", OnCuepositionChange);
             socket.On("CameraPositionChange", OnCameraPositionChange);
@@ -44,15 +43,7 @@ namespace GameStates
             cueBallHit = false;
         }
 
-        private void InvertCameraPosition()
-        {
-            mainCamera.transform.position = new Vector3(cueBall.transform.position.x + (cueBall.transform.position.x - currentPlayerCamera.position.x),
-                                                        currentPlayerCamera.transform.position.y,
-                                                        cueBall.transform.position.z + (cueBall.transform.position.z - currentPlayerCamera.position.z));
-            Vector3 cameraRot = currentPlayerCamera.transform.rotation.eulerAngles;
-            cameraRot = new Vector3(cameraRot.x, cameraRot.y + 180, cameraRot.z);
-            mainCamera.transform.rotation = Quaternion.Euler(cameraRot);
-        }
+        
 
         protected void OnCuepositionChange(object data)
         {
@@ -82,7 +73,7 @@ namespace GameStates
             {
                 DeserialTransform(currentPlayerCamera, serializedTransform: cameraTransSerialized);
                 DeserialTransform(cue.transform, cueTransSerialized);
-                InvertCameraPosition();
+                gameController.InvertCameraPosition(currentPlayerCamera);
             }
 
             if(strikeDir.x != 0 || strikeDir.y != 0 || strikeDir.z != 0)

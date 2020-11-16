@@ -27,9 +27,14 @@ public class GameManager : MonoBehaviour
 
     private bool isPlaying = false;
     private bool opponentQuit = false;
+    public bool playerReady = false;
     private int remainingTime = 0;
+    public static GameManager instance { get; private set; }
     void Start()
     {
+        if (instance == null) {
+            instance = this;
+        }
         StartCoroutine(downloadAvatar(Networking.username, myAvatar));
         StartCoroutine(downloadAvatar(Networking.opponentUsername, opponentAvatar));
         socket = Networking.instance.socket;
@@ -49,22 +54,15 @@ public class GameManager : MonoBehaviour
 
     void respondReadyState()
     {
-        socket.Emit("playerReady", "");
+        if (playerReady)
+        {
+            socket.Emit("playerReady", "");
+        }
     }
 
     void opponentQuitHandler()
     {
-        GameObject dialog = Instantiate(dialogPrefab, canvas.transform);
-        Text messsage = dialog.transform.Find("Message").gameObject.GetComponent<Text>();
-        Button button1 = dialog.transform.Find("ButtonGroup").gameObject.transform.GetChild(0).gameObject.GetComponent<Button>();
-        Button button2 = dialog.transform.Find("ButtonGroup").gameObject.transform.GetChild(1).gameObject.GetComponent<Button>();
-        messsage.text = "對手已中離";
-        button2.gameObject.SetActive(false);
-        button1.GetComponentInChildren<Text>().text = "回大廳";
-        button1.onClick.AddListener(() =>
-        {
-            SceneManager.LoadScene("Lobby");
-        });
+        displayMatchResult("對手已中離");
     }
 
     // Update is called once per frame
@@ -96,7 +94,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator downloadAvatar(string username, Image target)
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(Networking.url + ":3000/avatar?username=" + Networking.username);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(Networking.url + ":3000/avatar?username=" + username);
 
         yield return www.SendWebRequest();
 
@@ -110,5 +108,20 @@ public class GameManager : MonoBehaviour
             target.sprite = Sprite.Create(avatarImage, new Rect(0f, 0f, avatarImage.width, avatarImage.height), new Vector2(0.5f, 0.5f));
             Debug.Log("Avatar download completed.");
         }
+    }
+
+    public void displayMatchResult(string msg)
+    {
+        GameObject dialog = Instantiate(dialogPrefab, canvas.transform);
+        Text messsage = dialog.transform.Find("Message").gameObject.GetComponent<Text>();
+        Button button1 = dialog.transform.Find("ButtonGroup").gameObject.transform.GetChild(0).gameObject.GetComponent<Button>();
+        Button button2 = dialog.transform.Find("ButtonGroup").gameObject.transform.GetChild(1).gameObject.GetComponent<Button>();
+        messsage.text = msg;
+        button2.gameObject.SetActive(false);
+        button1.GetComponentInChildren<Text>().text = "回大廳";
+        button1.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene("Lobby");
+        });
     }
 }

@@ -345,6 +345,12 @@
     <Reference Include="WebSocket4Net">
       <HintPath>D:/it_work/capestone_project/API_Test/Assets/WebSocket4Net.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Posix">
+      <HintPath>D:/it_work/capestone_project/API_Test/Assets/StandaloneFileBrowser/Plugins/Mono.Posix.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.WebBrowser">
+      <HintPath>D:/it_work/capestone_project/API_Test/Assets/StandaloneFileBrowser/Plugins/Mono.WebBrowser.dll</HintPath>
+    </Reference>
     <Reference Include="Ookii.Dialogs">
       <HintPath>D:/it_work/capestone_project/API_Test/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>
     </Reference>

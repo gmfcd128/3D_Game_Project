@@ -53,7 +53,7 @@ public class Avatar : MonoBehaviour, IPointerClickHandler
 
     IEnumerator fetchAvatarFromServer()
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(Networking.url + ":3000/avatar?username=" + Networking.username);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture("http://" + Networking.url + ":3000/avatar?username=" + Networking.username);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)

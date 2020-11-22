@@ -12,7 +12,7 @@ using System.IO;
 public class Networking : MonoBehaviour
 {
     [SerializeField]
-    public static string url = "localhost";
+    public static string url = "ma302.ddns.net";
     public static string username;
     public static string opponentUsername;
     public static string password;
@@ -117,7 +117,7 @@ public class Networking : MonoBehaviour
 
     IEnumerator SignUp()
     {
-        UnityWebRequest request = new UnityWebRequest(url + ":3000/users/signup", "POST");
+        UnityWebRequest request = new UnityWebRequest("http://" + url + ":3000/signup", "POST");
         JObject credentials = new JObject();
         credentials["username"] = username;
         credentials["password"] = password;

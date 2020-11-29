@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Quobject.SocketIoClientDotNet.Client;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    Socket socket;
+    QSocket socket;
     [SerializeField]
     GameObject dialogPrefab;
     [SerializeField]
@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(downloadAvatar(Networking.username, myAvatar));
         StartCoroutine(downloadAvatar(Networking.opponentUsername, opponentAvatar));
         socket = Networking.instance.socket;
-        Action onServerReady = respondReadyState;
         socket.On("opponentQuit", () => { opponentQuit = true; });
         quitGameButton.onClick.AddListener(() =>
         {
@@ -47,7 +46,7 @@ public class GameManager : MonoBehaviour
         });
         socket.On("yourTurn", () => { isPlaying = true; });
         socket.On("standby", () => { isPlaying = false; });
-        socket.On("serverReady", onServerReady);
+        socket.On("serverReady", respondReadyState);
         socket.On("timer", (data) => { remainingTime = Int32.Parse(data.ToString()); });
 
     }

@@ -5,19 +5,19 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Quobject.SocketIoClientDotNet.Client;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 using System;
 using System.IO;
 
 public class Networking : MonoBehaviour
 {
     [SerializeField]
-    public static string url = "localhost";
+    public static string url = "ma302.ddns.net";
     public static string username;
     public static string opponentUsername;
     public static string password;
     public static string sessionCookie { get; private set; }
-    public Socket socket { get; set; }
+    public QSocket socket { get; set; }
 
     private static Networking _instance;
     public static Networking instance
@@ -45,7 +45,7 @@ public class Networking : MonoBehaviour
         }
         Debug.Log("Socket test.");
         socket = IO.Socket("http://" + url + ":3000");
-        socket.On(Socket.EVENT_CONNECT, () =>
+        socket.On(QSocket.EVENT_CONNECT, () =>
         {
             Debug.Log("SocketIO Connected!!");
 
@@ -117,7 +117,7 @@ public class Networking : MonoBehaviour
 
     IEnumerator SignUp()
     {
-        UnityWebRequest request = new UnityWebRequest(url + ":3000/users/signup", "POST");
+        UnityWebRequest request = new UnityWebRequest("http://" + url + ":3000/signup", "POST");
         JObject credentials = new JObject();
         credentials["username"] = username;
         credentials["password"] = password;

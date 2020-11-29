@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Quobject.SocketIoClientDotNet.Client;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 
 public class PocketsController : MonoBehaviour {
 	public GameObject redBalls;
 	public GameObject cueBall;
 	public AudioSource ballAudioSource;
 	private Vector3 originalCueBallPosition;
-	private Socket socket;
+	private QSocket socket;
 
 	void Start() {
 		originalCueBallPosition = cueBall.transform.position;

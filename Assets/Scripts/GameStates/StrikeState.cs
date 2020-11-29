@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Quobject.SocketIoClientDotNet.Client;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 
 namespace GameStates
 {

@@ -1,25 +1,17 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Quobject.SocketIoClientDotNet.Client;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyUIManager : MonoBehaviour
 {
-    private string playerListData = null;
-    private string challengeMessage = null;
-    private bool playerStatChanged = false;
-    private bool newChallenge = false;
+    private Text message = null;
     private bool requestAccepted = false;
     Dictionary<string, Player> onlinePlayers;
-    private Socket socket;
-    private ManualResetEvent ManualResetEvent = null;
+    private QSocket socket;
     private GameObject canvas;
     private RoomScrollList scrollList;
     public GameObject dialogPrefab;
@@ -43,28 +35,22 @@ public class LobbyUIManager : MonoBehaviour
         _instance = this;
         canvas = GameObject.Find("Canvas");
         scrollList = canvas.GetComponent<RoomScrollList>();
+        WebGLPluginJS.Init(Networking.username);
         Debug.Log("LobbyUI Started.");
-        socket = Networking.instance.socket;
-        socket.On("playerListUpdate", (data) =>
-        {
-            playerListData = data.ToString();
-            playerStatChanged = true;
-        }
-       );
-        socket.On("requestChallenge", (data) =>
+        /*socket.On("requestChallenge", (data) =>
         {
             challengeMessage = data.ToString();
             newChallenge = true;
-        });
-        socket.Emit("joinGame", Networking.username);
+        });*/
         AudioManager.instance.PlayDefaultMusic();
     }
 
-    void updatePlayerList()
+    public void updatePlayerList(string data)
     {
         Debug.Log("Player List Update:");
-        Debug.Log(@playerListData);
-        onlinePlayers = JsonConvert.DeserializeObject<Dictionary<string, Player>>(@playerListData);
+        Debug.Log(@data);
+        onlinePlayers = JsonConvert.DeserializeObject<Dictionary<string, Player>>(@data);
+        Debug.Log("scroll list refresh");
         scrollList.players.Clear();
         scrollList.refreshDisplay();
         foreach (var player in onlinePlayers)
@@ -78,24 +64,18 @@ public class LobbyUIManager : MonoBehaviour
         Debug.Log("addRoom function entered!");
     }
 
-    
-
-    private void challengeHandler()
-    {
-        Debug.Log(challengeMessage);
-        createPopup(challengeMessage, onlinePlayers[challengeMessage].username, true);
-    }
+   
 
     public void createPopup(string socketID, string messageUsername, bool notifyChallenge = false)
     {
         GameObject dialog = Instantiate(dialogPrefab, canvas.transform);
-        Text messsage = dialog.transform.Find("Message").gameObject.GetComponent<Text>();
+        message = dialog.transform.Find("Message").gameObject.GetComponent<Text>();
         Button button1 = dialog.transform.Find("ButtonGroup").gameObject.transform.GetChild(0).gameObject.GetComponent<Button>();
         Button button2 = dialog.transform.Find("ButtonGroup").gameObject.transform.GetChild(1).gameObject.GetComponent<Button>();
         if (notifyChallenge)
         {
             Networking.opponentUsername = messageUsername;
-            messsage.text = "" + messageUsername + "想要挑戰你";
+            message.text = "" + messageUsername + "想要挑戰你";
             button1.GetComponentInChildren<Text>().text = "同意";
             button1.onClick.AddListener(() =>
             {
@@ -106,8 +86,7 @@ public class LobbyUIManager : MonoBehaviour
             button2.GetComponentInChildren<Text>().text = "取消";
             button2.onClick.AddListener(() =>
             {
-                socket.Emit("denyRequest", socketID);
-                socket.Emit("joinGame", Networking.username);
+                WebGLPluginJS.DenyRequest(socketID);
                 destroyGameObject(dialog);
             });
         }
@@ -115,15 +94,15 @@ public class LobbyUIManager : MonoBehaviour
         {
             Networking.opponentUsername = messageUsername;
             button2.gameObject.SetActive(false);
-            messsage.text = "正在等候" + messageUsername + "...";
+            message.text = "正在等候" + messageUsername + "...";
+            WebGLPluginJS.RequestChallenge(socketID);
             button1.onClick.AddListener(() =>
             {
                 socket.Emit("joinGame", Networking.username);
                 destroyGameObject(dialog);
             });
             button1.GetComponentInChildren<Text>().text = "取消";
-            socket.Emit("requestChallenge", socketID);
-            Action onRequestDenied = () => { messsage.text = "對方已拒絕對戰請求"; };
+            Action onRequestDenied = () => { message.text = "對方已拒絕對戰請求"; };
             socket.On("requestDenied", () =>
             {
                 onRequestDenied();
@@ -133,7 +112,6 @@ public class LobbyUIManager : MonoBehaviour
                 requestAccepted = true;
             });
         }
-        socket.Emit("playerUnavailable", "");
 
     }
 
@@ -147,16 +125,6 @@ public class LobbyUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerStatChanged)
-        {
-            playerStatChanged = false;
-            updatePlayerList();
-        }
-        if (newChallenge)
-        {
-            newChallenge = false;
-            challengeHandler();
-        }
         if (requestAccepted)
         {
             requestAccepted = false;

@@ -1,4 +1,4 @@
-﻿using Quobject.SocketIoClientDotNet.Client;
+﻿using Socket.Quobject.SocketIoClientDotNet.Client;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace GameStates
         private GameObject cue;
         private GameObject cueBall;
         private GameObject mainCamera;
-        protected Socket socket;
+        protected QSocket socket;
         private bool cueBallHit;
         private bool cueStickEnable;
         private Vector3 cueBallForce;

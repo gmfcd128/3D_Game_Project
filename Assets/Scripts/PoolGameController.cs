@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Frontend;
-using Quobject.SocketIoClientDotNet.Client;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 using GameStates;
 using System;
 
@@ -29,8 +29,9 @@ public class PoolGameController : MonoBehaviour
 
     private bool currentPlayerContinuesToPlay = false;
     private bool firstEntry = true;
+    private bool gameFinished = false;
 
-    protected Socket socket;
+    protected QSocket socket;
 
     // This is kinda hacky but works
     static public PoolGameController GameInstance
@@ -78,11 +79,17 @@ public class PoolGameController : MonoBehaviour
             }
         });
 
+        socket.On("endMatch", () => { gameFinished = true; });
+
     }
 
     void Update()
     {
         currentState.Update();
+        if (gameFinished) {
+            EndMatch();
+            gameFinished = false;
+        }
     }
 
     void FixedUpdate()
@@ -160,6 +167,7 @@ public class PoolGameController : MonoBehaviour
             msg += string.Format("'{0}' 贏了", winner.Name);
         else
             msg += "平手.";
+        socket.Emit("endMatch", "");
 
         GameManager.instance.displayMatchResult(msg);
     }

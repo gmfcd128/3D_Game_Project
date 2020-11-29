@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Quobject.SocketIoClientDotNet.Client;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -21,7 +21,7 @@ namespace GameStates
         private Vector3 cueOffset;
         private Quaternion cameraRotation;
         private Quaternion cueRotation;
-        private Socket socket;
+        private QSocket socket;
 
         public WaitingForNextTurnState(MonoBehaviour parent) : base(parent)
         {

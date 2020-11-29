@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Quobject.SocketIoClientDotNet.Client;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
 
 public class Chat : MonoBehaviour
@@ -19,7 +18,7 @@ public class Chat : MonoBehaviour
 
     private bool hasNewMessage;
     private string msg;
-    private Socket socket;
+    private QSocket socket;
     // Start is called before the first frame update
     void Start()
     {

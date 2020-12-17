@@ -36,7 +36,7 @@ namespace GameStates {
 
 		public override void Update() {
 			var x = Input.GetAxis("Horizontal");
-			var y = Input.GetAxis("Vertical");
+			//var y = Input.GetAxis("Vertical");
 			strikeDir = (SerializableVector3)gameController.strikeDirection;
 			Debug.Log(strikeDir);
 			Networking.instance.socket.Emit("StrikeDirectionChange", JsonConvert.SerializeObject(strikeDir));
@@ -54,13 +54,13 @@ namespace GameStates {
 			}
 			Debug.DrawLine(cueBall.transform.position, cueBall.transform.position + gameController.strikeDirection * 10);
 			
-			if (y != 0)
+			/*if (y != 0)
 			{
 				var angle2 = y * 50 * Time.deltaTime;
 				gameController.strikeDirection = Quaternion.AngleAxis(angle2, Vector3.forward) * gameController.strikeDirection;
 				mainCamera.transform.RotateAround(cueBall.transform.position, Vector3.forward, angle2);
 				cue.transform.RotateAround(cueBall.transform.position, Vector3.forward, angle2);
-			}
+			}**/
 			if (Input.GetButtonDown("Fire1") && (IsPointerOverUIObject() == false)) {
 				Networking.instance.socket.Emit("CueReleased", "");
 				gameController.currentState = new GameStates.StrikingState(gameController);

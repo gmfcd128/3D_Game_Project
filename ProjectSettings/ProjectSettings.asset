@@ -12,7 +12,11 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
+<<<<<<< HEAD
   companyName: DefaultCompany
+=======
+  companyName: NKNUSE
+>>>>>>> 58ffddfbedb735aa5543e977641cb3ba91ff8b41
   productName: 3D Pool Game
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -656,7 +660,11 @@ PlayerSettings:
   blurSplashScreenBackground: 1
   spritePackerPolicy: 
   webGLMemorySize: 512
+<<<<<<< HEAD
   webGLExceptionSupport: 3
+=======
+  webGLExceptionSupport: 1
+>>>>>>> 58ffddfbedb735aa5543e977641cb3ba91ff8b41
   webGLNameFilesAsHashes: 0
   webGLDataCaching: 1
   webGLDebugSymbols: 0

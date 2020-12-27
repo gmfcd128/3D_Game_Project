@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AbstractGameObjectState" Collapsed="true">
+    <Position X="4.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAgAAAABAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AbstractGameObjectState.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GameStates.StrikeState">
+    <Position X="4.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAEAkAAAAAQAAAAAAAAAAAAAQIAAAAAAAAAgCA=</HashCode>
+      <FileName>Assets\Scripts\GameStates\StrikeState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStates.StrikingState">
+    <Position X="2.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAEAgAAAAAQAAAAAAAAAAAAAQIAAAAAAAAAACA=</HashCode>
+      <FileName>Assets\Scripts\GameStates\StrikingState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStates.WaitingForNextTurnState">
+    <Position X="8.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAECgAAAIARAAAAIAAQBAAAMAIAAAEAAAAAACA=</HashCode>
+      <FileName>Assets\Scripts\GameStates\WaitingForNextTurnState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStates.WaitingForStrikeState">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAAEABQAAAAQAAAAAAAQAAAAEAIAAAAAAAAAACA=</HashCode>
+      <FileName>Assets\Scripts\GameStates\WaitingForStrikeState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStates.WatchingState">
+    <Position X="4.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAQgAAAEAEQAAAIQAgAAAAgAAAAAEAADAAEQAgAAICA=</HashCode>
+      <FileName>Assets\Scripts\GameStates\WatchingState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioManager">
+    <Position X="12" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAEAEAAAAEAgAAgACANAAgBAAAAAAAAAAEI=</HashCode>
+      <FileName>Assets\Scripts\AudioManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BallCollisionAudio" Collapsed="true">
+    <Position X="19.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAEAAAAAAAAAAAABAABIAAAAQAABAAEA=</HashCode>
+      <FileName>Assets\Scripts\BallCollisionAudio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ButtonAudio" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ButtonAudio.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Chat" Collapsed="true">
+    <Position X="21.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAACAAgAAAAAAAAAAiAAABEAAAAAUAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Chat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CollisionAudioStatus" Collapsed="true">
+    <Position X="24.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAMAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CollisionAudioStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DestroyBall" Collapsed="true">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\DestroyBall.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExecuteOnMainThread">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ExecuteOnMainThread.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQxkACAAAEAAAgAQAAACABBACAAEAAGAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hint" Collapsed="true">
+    <Position X="19.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAIBAASAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LobbyUIManager" Collapsed="true">
+    <Position X="21.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEACAAICCAAAAAAAAAAAACgABACAAEAQEEAACAIRA=</HashCode>
+      <FileName>Assets\Scripts\LobbyUIManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MouseAudio" Collapsed="true">
+    <Position X="23" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAUAAAAAAAAgAAAAAABAAABAAAAAAAAQAEA=</HashCode>
+      <FileName>Assets\Scripts\MouseAudio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Networking" Collapsed="true">
+    <Position X="24.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAAAAAACAABAAQAAAMAAABJAAAEAEEQAgAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Networking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PocketsController">
+    <Position X="15.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACCAAAAAAAAAAAAAAAAAAAAAIABEAAABAACA=</HashCode>
+      <FileName>Assets\Scripts\PocketsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PoolAudio" Collapsed="true">
+    <Position X="19.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAABBAgAAAAAAAQAAAUA=</HashCode>
+      <FileName>Assets\Scripts\PoolAudio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PoolGameController" Collapsed="true">
+    <Position X="23" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAECiKAAEAAIBAAcABAAChAEQAAAAEAgAAIACA=</HashCode>
+      <FileName>Assets\Scripts\PoolGameController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoomListItem" Collapsed="true">
+    <Position X="24.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABJCCAAAAAAAAAAAAEAAAAAAAAAAAAAAAACEQA=</HashCode>
+      <FileName>Assets\Scripts\RoomListItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\RoomScrollList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoomScrollList" Collapsed="true">
+    <Position X="26.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEAAIAEACIAAAAAAAAAAAAAAAAAAAAAIAAABAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\RoomScrollList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScoreController">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAgAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ScoreController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SerializedTransform">
+    <Position X="17.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAQAAAAAAAAAAAAAAAAAAAAgAAAACA=</HashCode>
+      <FileName>Assets\Scripts\SerializedTransform.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleObjectPool" Collapsed="true">
+    <Position X="19.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAIAAAIAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\SimpleObjectPool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PooledObject" Collapsed="true">
+    <Position X="21.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SimpleObjectPool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SnookerBallController" Collapsed="true">
+    <Position X="21.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SnookerBallController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TableCollisionAudio">
+    <Position X="12" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAIAA=</HashCode>
+      <FileName>Assets\Scripts\TableCollisionAudio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIManager">
+    <Position X="19.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAMAAgAAAAAAAAAAAAAAAAAAABAAEAgAAACAAAAAGA=</HashCode>
+      <FileName>Assets\Scripts\UIManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicSample" Collapsed="true">
+    <Position X="21.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAQAAAACAAAAAAAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\Sample\BasicSample.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CanvasSampleOpenFileImage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAAAAAAAAAAADCAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileImage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CanvasSampleOpenFileText" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAAAAAAAAAAADCAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileText.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CanvasSampleOpenFileTextMultiple" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAAAAAAAAAAADCAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileTextMultiple.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CanvasSampleSaveFileImage" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAAAAAAAAAAACCAAEAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\Sample\CanvasSampleSaveFileImage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CanvasSampleSaveFileText" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABCAIAAAAAAAAAAACCAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\Sample\CanvasSampleSaveFileText.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Avatar" BaseTypeListCollapsed="true">
+    <Position X="12" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAiAAAAACAAAAAAAEAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\Avatar.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Assets.Scripts.Class1" Collapsed="true">
+    <Position X="23" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Class1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Frontend.Player">
+    <Position X="13.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAggAAgAAAAAQAAQAAAAAAAAAAAAAAAiA=</HashCode>
+      <FileName>Assets\Scripts\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SFB.StandaloneFileBrowser" Collapsed="true">
+    <Position X="23" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAQAAAAAAAAAAAAAAAAAAAAIAgBAAAgAAAIAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SFB.StandaloneFileBrowserEditor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAIAgBABAgAAAIAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\StandaloneFileBrowserEditor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SFB.WindowWrapper" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAIAAAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\StandaloneFileBrowserWindows.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SFB.StandaloneFileBrowserWindows" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAgAAAAAAAAAAAAAAAAAAAIAgBAFAgAAAIAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\StandaloneFileBrowserWindows.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Struct Name="SerializableVector3">
+    <Position X="17.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAEAAAAAAAAAAAABAAAAABgAQAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SerializableVector3.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SFB.ExtensionFilter">
+    <Position X="13.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="IGameObjectState">
+    <Position X="15.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAgAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\IGameObjectState.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SFB.IStandaloneFileBrowser">
+    <Position X="13.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAIAgBAAAgAAAIAA=</HashCode>
+      <FileName>Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Microsoft JhengHei UI" Size="9" />
+</ClassDiagram>

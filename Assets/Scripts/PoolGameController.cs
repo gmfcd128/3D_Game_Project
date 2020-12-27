@@ -23,6 +23,7 @@ public class PoolGameController : MonoBehaviour
 
     private bool currentPlayerContinuesToPlay = false;
     private bool firstEntry = true;
+    private bool gameFinished = false;
 
 
     // This is kinda hacky but works
@@ -63,17 +64,40 @@ public class PoolGameController : MonoBehaviour
         currentState = new GameStates.WaitingForStrikeState(this);
         if (firstEntry)
         {
+<<<<<<< HEAD
             firstEntry = false;
         }
         else
         {
             InvertCameraPosition();
         }
+=======
+            CurrentPlayer = mySelf;
+            IdlePlayer = opponent;
+            Debug.Log(currentState.GetType());
+            currentState = new GameStates.WaitingForStrikeState(this);
+            if (firstEntry)
+            {
+                firstEntry = false;
+            }
+            else
+            {
+                InvertCameraPosition();
+            }
+        });
+
+        socket.On("endMatch", () => { gameFinished = true; });
+
+>>>>>>> 58ffddfbedb735aa5543e977641cb3ba91ff8b41
     }
 
     void Update()
     {
         currentState.Update();
+        if (gameFinished) {
+            EndMatch();
+            gameFinished = false;
+        }
     }
 
     void FixedUpdate()
@@ -172,7 +196,11 @@ public class PoolGameController : MonoBehaviour
             msg += string.Format("'{0}' 贏了", winner.Name);
         else
             msg += "平手.";
+<<<<<<< HEAD
         WebGLPluginJS.SocketEmit("endMatch", "");
+=======
+        socket.Emit("endMatch", "");
+>>>>>>> 58ffddfbedb735aa5543e977641cb3ba91ff8b41
 
         GameManager.instance.displayMatchResult(msg);
     }

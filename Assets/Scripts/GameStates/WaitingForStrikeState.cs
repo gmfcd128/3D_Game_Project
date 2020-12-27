@@ -39,13 +39,13 @@ namespace GameStates {
 			var y = Input.GetAxis("Vertical");
 			strikeDir = (SerializableVector3)gameController.strikeDirection;
 			Debug.Log(strikeDir);
-			Networking.instance.socket.Emit("StrikeDirectionChange", JsonConvert.SerializeObject(strikeDir));
+			WebGLPluginJS.SocketEmit("StrikeDirectionChange", JsonConvert.SerializeObject(strikeDir));
 			cueTrans.SetValue(cue.transform);
-			Networking.instance.socket.Emit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
+			WebGLPluginJS.SocketEmit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
 			//Unity的transform屬性無法被序列化以透過網路傳送，故須經過此轉換
 			cameraTrans.SetValue(mainCamera.transform);
-			Networking.instance.socket.Emit("CameraPositionChange", JsonConvert.SerializeObject(cameraTrans));
-			if (x != 0) {
+			WebGLPluginJS.SocketEmit("CameraPositionChange", JsonConvert.SerializeObject(cameraTrans));
+			if (x != 0 && !Chat.instance.InputFocused()) {
 				var angle = x * 75 * Time.deltaTime;
 				gameController.strikeDirection = Quaternion.AngleAxis(angle, Vector3.up) * gameController.strikeDirection;
 				Debug.Log(gameController.strikeDirection);
@@ -54,7 +54,7 @@ namespace GameStates {
 			}
 			Debug.DrawLine(cueBall.transform.position, cueBall.transform.position + gameController.strikeDirection * 10);
 			
-			if (y != 0)
+			if (y != 0 && !Chat.instance.InputFocused())
 			{
 				var angle2 = y * 50 * Time.deltaTime;
 				gameController.strikeDirection = Quaternion.AngleAxis(angle2, Vector3.forward) * gameController.strikeDirection;
@@ -62,7 +62,7 @@ namespace GameStates {
 				cue.transform.RotateAround(cueBall.transform.position, Vector3.forward, angle2);
 			}
 			if (Input.GetButtonDown("Fire1") && (IsPointerOverUIObject() == false)) {
-				Networking.instance.socket.Emit("CueReleased", "");
+				WebGLPluginJS.SocketEmit("CueReleased", "");
 				gameController.currentState = new GameStates.StrikingState(gameController);
 			}
 		}

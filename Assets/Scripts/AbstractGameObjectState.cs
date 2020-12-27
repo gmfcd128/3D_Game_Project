@@ -9,4 +9,6 @@ public abstract class AbstractGameObjectState : IGameObjectState {
 	public virtual void Update() { }
 	public virtual void FixedUpdate() { }
 	public virtual void LateUpdate() { }
+
+	public virtual void OnSocketEvent(string eventName, string data) { }
 }

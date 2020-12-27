@@ -12,20 +12,17 @@ public class CollisionAudioStatus : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ball"))
         {
-            //Exit if we have already done some damage
             if (detectedBefore)
             {
                 return;
             }
 
-            //Set the other detectedBefore variable to true
             CollisionAudioStatus stat = collision.gameObject.GetComponent<CollisionAudioStatus>();
             if (stat)
             {
                 stat.detectedBefore = true;
             }
 
-            // Put damage/or code to run once below
             Debug.Log(collision.relativeVelocity.magnitude);
             BallCollisionAudio.instance.PlayBallCollisionSound(collision);
         }

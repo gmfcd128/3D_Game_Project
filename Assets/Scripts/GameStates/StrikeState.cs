@@ -45,17 +45,17 @@ namespace GameStates
                 cueBallForce = gameController.strikeDirection * force;
                 Debug.Log(gameController.strikeDirection);
                 Debug.Log(force);
-                Networking.instance.socket.Emit("CueBallStriked", JsonConvert.SerializeObject(cueBallForce));
+                WebGLPluginJS.SocketEmit("CueBallStriked", JsonConvert.SerializeObject(cueBallForce));
                 cue.transform.Translate(Vector3.down * speed * Time.fixedDeltaTime);
                 cueTrans.SetValue(cue.transform);
-                Networking.instance.socket.Emit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
+                WebGLPluginJS.SocketEmit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
                 gameController.currentState = new GameStates.WaitingForNextTurnState(gameController);
             }
             else
             {
                 cue.transform.Translate(Vector3.down * speed * -1 * Time.fixedDeltaTime);
                 cueTrans.SetValue(cue.transform);
-                Networking.instance.socket.Emit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
+                WebGLPluginJS.SocketEmit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
             }
         }
     }

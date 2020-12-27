@@ -27,7 +27,7 @@ public class RoomListItem : MonoBehaviour
 
     public void HandleClick()
     {
-        LobbyUIManager.instance.createPopup(socketID, username);
+        LobbyUIManager.instance.requestChallenge(socketID, username);
     }
 
 }

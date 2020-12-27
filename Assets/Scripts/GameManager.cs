@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using Socket.Quobject.SocketIoClientDotNet.Client;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -11,7 +7,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    QSocket socket;
     [SerializeField]
     GameObject dialogPrefab;
     [SerializeField]
@@ -25,56 +20,44 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Image opponentAvatar;
 
-    private bool isPlaying = false;
     private bool opponentQuit = false;
     public bool playerReady = false;
     private int remainingTime = 0;
     public static GameManager instance { get; private set; }
     void Start()
     {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = this;
         }
         StartCoroutine(downloadAvatar(Networking.username, myAvatar));
         StartCoroutine(downloadAvatar(Networking.opponentUsername, opponentAvatar));
-        socket = Networking.instance.socket;
-        socket.On("opponentQuit", () => { opponentQuit = true; });
         quitGameButton.onClick.AddListener(() =>
         {
-            socket.Emit("quitGame", "");
+            WebGLPluginJS.SocketEmit("quitGame", "");
             SceneManager.LoadScene("Lobby");
         });
-        socket.On("yourTurn", () => { isPlaying = true; });
-        socket.On("standby", () => { isPlaying = false; });
-        socket.On("serverReady", respondReadyState);
-        socket.On("timer", (data) => { remainingTime = Int32.Parse(data.ToString()); });
 
     }
 
-    void respondReadyState()
+    public void updateTimer(int time)
+    {
+        remainingTime = time;
+    }
+
+    public void OnServerReady()
     {
         if (playerReady)
         {
-            socket.Emit("playerReady", "");
+            WebGLPluginJS.SocketEmit("playerReady", "");
         }
     }
 
-    void opponentQuitHandler()
+    public void UpdateHUD(int isPlaying)
     {
-        displayMatchResult("對手已中離");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isPlaying)
+        if (isPlaying == 1)
         {
-            hud.text = "觀戰狀態";
-            myAvatar.gameObject.GetComponent<Outline>().enabled = false;
-            opponentAvatar.gameObject.GetComponent<Outline>().enabled = true;
-        }
-        else
-        {
+            //玩家正在玩
             hud.text = "輪到你了";
             myAvatar.gameObject.GetComponent<Outline>().enabled = true;
             opponentAvatar.gameObject.GetComponent<Outline>().enabled = false;
@@ -83,13 +66,19 @@ public class GameManager : MonoBehaviour
                 hud.text += "(剩下" + remainingTime + "秒)";
             }
         }
-
-        if (opponentQuit)
+        else if (isPlaying == 0)
         {
-            opponentQuit = false;
-            opponentQuitHandler();
+            hud.text = "觀戰狀態";
+            myAvatar.gameObject.GetComponent<Outline>().enabled = false;
+            opponentAvatar.gameObject.GetComponent<Outline>().enabled = true;
         }
     }
+
+    public void OnOpponentQuit()
+    {
+        displayMatchResult("對手已中離");
+    }
+
 
     IEnumerator downloadAvatar(string username, Image target)
     {

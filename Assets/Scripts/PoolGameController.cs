@@ -1,10 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using Frontend;
-using Socket.Quobject.SocketIoClientDotNet.Client;
-using GameStates;
-using System;
-
 public class PoolGameController : MonoBehaviour
 {
     public GameObject cue;
@@ -25,13 +19,11 @@ public class PoolGameController : MonoBehaviour
     public Frontend.Player CurrentPlayer;
     public Frontend.Player IdlePlayer;
     public Frontend.Player mySelf;
-    public Frontend.Player opponent; 
+    public Frontend.Player opponent;
 
     private bool currentPlayerContinuesToPlay = false;
     private bool firstEntry = true;
-    private bool gameFinished = false;
 
-    protected QSocket socket;
 
     // This is kinda hacky but works
     static public PoolGameController GameInstance
@@ -42,7 +34,6 @@ public class PoolGameController : MonoBehaviour
 
     void Start()
     {
-        socket = Networking.instance.socket;
         strikeDirection = Vector3.forward;
         mySelf = new Frontend.Player(Networking.username);
         opponent = new Frontend.Player(Networking.opponentUsername);
@@ -51,45 +42,38 @@ public class PoolGameController : MonoBehaviour
         StartCoroutine(AudioManager.instance.PlayGameMusic());
 
         currentState = new GameStates.WaitingForStrikeState(this);
+    }
 
-        socket.On("standby", () =>
+    public void standby()
+    {
+        CurrentPlayer = opponent;
+        IdlePlayer = mySelf;
+        if (firstEntry)
         {
-            CurrentPlayer = opponent;
-            IdlePlayer = mySelf;
-            if (firstEntry)
-            {
-                firstEntry = false;
-            }
-            currentState = new GameStates.WatchingState(this);
-        });
+            firstEntry = false;
+        }
+        currentState = new GameStates.WatchingState(this);
+    }
 
-        socket.On("yourTurn", () =>
+    public void myTurn()
+    {
+        CurrentPlayer = mySelf;
+        IdlePlayer = opponent;
+        Debug.Log(currentState.GetType());
+        currentState = new GameStates.WaitingForStrikeState(this);
+        if (firstEntry)
         {
-            CurrentPlayer = mySelf;
-            IdlePlayer = opponent;
-            Debug.Log(currentState.GetType());
-            currentState = new GameStates.WaitingForStrikeState(this);
-            if (firstEntry)
-            {
-                firstEntry = false;
-            }
-            else
-            {
-                InvertCameraPosition();
-            }
-        });
-
-        socket.On("endMatch", () => { gameFinished = true; });
-
+            firstEntry = false;
+        }
+        else
+        {
+            InvertCameraPosition();
+        }
     }
 
     void Update()
     {
         currentState.Update();
-        if (gameFinished) {
-            EndMatch();
-            gameFinished = false;
-        }
     }
 
     void FixedUpdate()
@@ -102,6 +86,27 @@ public class PoolGameController : MonoBehaviour
         currentState.LateUpdate();
     }
 
+    public void OnCuePositionChange(string data)
+    {
+        currentState.OnSocketEvent("CuePositionChange", @data);
+    }
+
+    public void OnCameraPositionChange(string data)
+    {
+        currentState.OnSocketEvent("CameraPositionChange", @data);
+    }
+
+    public void OnStrikeDirectionChange(string data)
+    {
+        currentState.OnSocketEvent("StrikeDirectionChange", @data);
+    }
+
+    public void OnCueBallStriked(string data)
+    {
+        currentState.OnSocketEvent("CueBallStriked", @data);
+    }
+
+
     public void BallPocketed(int ballNumber)
     {
         currentPlayerContinuesToPlay = true;
@@ -113,7 +118,8 @@ public class PoolGameController : MonoBehaviour
         if (currentPlayerContinuesToPlay)
         {
             currentPlayerContinuesToPlay = false;
-            Networking.instance.socket.Emit("continue", "");
+            WebGLPluginJS.SocketEmit("continue", "");
+            currentState.OnSocketEvent("continue", "");
             Debug.Log(CurrentPlayer.Name + " continues to play");
             return;
         }
@@ -123,8 +129,7 @@ public class PoolGameController : MonoBehaviour
             Debug.Log("Opponent: " + Networking.opponentUsername);
             if (CurrentPlayer.Equals(mySelf))
             {
-                Networking.instance.socket.Emit("nextTurn", "");
-
+                WebGLPluginJS.SocketEmit("nextTurn", "");
             }
         }
 
@@ -167,10 +172,10 @@ public class PoolGameController : MonoBehaviour
             msg += string.Format("'{0}' 贏了", winner.Name);
         else
             msg += "平手.";
-        socket.Emit("endMatch", "");
+        WebGLPluginJS.SocketEmit("endMatch", "");
 
         GameManager.instance.displayMatchResult(msg);
     }
 
- 
+
 }

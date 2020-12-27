@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Socket.Quobject.SocketIoClientDotNet.Client;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +8,6 @@ using UnityEngine.UI;
 public class LobbyUIManager : MonoBehaviour
 {
     private Text message = null;
-    private bool requestAccepted = false;
     Dictionary<string, Player> onlinePlayers;
     private QSocket socket;
     private GameObject canvas;
@@ -37,11 +35,6 @@ public class LobbyUIManager : MonoBehaviour
         scrollList = canvas.GetComponent<RoomScrollList>();
         WebGLPluginJS.Init(Networking.username);
         Debug.Log("LobbyUI Started.");
-        /*socket.On("requestChallenge", (data) =>
-        {
-            challengeMessage = data.ToString();
-            newChallenge = true;
-        });*/
         AudioManager.instance.PlayDefaultMusic();
     }
 
@@ -64,7 +57,24 @@ public class LobbyUIManager : MonoBehaviour
         Debug.Log("addRoom function entered!");
     }
 
-   
+    public void OnNewChallenge(string socketID)
+    {
+        createPopup(socketID, onlinePlayers[socketID].username, true);
+    }
+
+    public void OnRequestDenied()
+    {
+        if (message != null)
+        {
+            message.text = "對方已拒絕對戰請求";
+        }
+    }
+
+    public void requestChallenge(string socketID, string username)
+    {
+        WebGLPluginJS.RequestChallenge(socketID);
+        createPopup(socketID, username);
+    }
 
     public void createPopup(string socketID, string messageUsername, bool notifyChallenge = false)
     {
@@ -79,8 +89,8 @@ public class LobbyUIManager : MonoBehaviour
             button1.GetComponentInChildren<Text>().text = "同意";
             button1.onClick.AddListener(() =>
             {
-                socket.Emit("acceptChallenge", socketID);
-                SceneManager.LoadScene("Game");
+                WebGLPluginJS.AcceptChallenge(socketID);
+                EnterGame();
             });
 
             button2.GetComponentInChildren<Text>().text = "取消";
@@ -95,24 +105,19 @@ public class LobbyUIManager : MonoBehaviour
             Networking.opponentUsername = messageUsername;
             button2.gameObject.SetActive(false);
             message.text = "正在等候" + messageUsername + "...";
-            WebGLPluginJS.RequestChallenge(socketID);
             button1.onClick.AddListener(() =>
             {
-                socket.Emit("joinGame", Networking.username);
+                WebGLPluginJS.JoinGame();
                 destroyGameObject(dialog);
             });
             button1.GetComponentInChildren<Text>().text = "取消";
-            Action onRequestDenied = () => { message.text = "對方已拒絕對戰請求"; };
-            socket.On("requestDenied", () =>
-            {
-                onRequestDenied();
-            });
-            socket.On("acceptChallenge", () =>
-            {
-                requestAccepted = true;
-            });
         }
 
+    }
+
+    public void EnterGame()
+    {
+        SceneManager.LoadScene("Game");
     }
 
     void destroyGameObject(GameObject gameObject)
@@ -120,16 +125,5 @@ public class LobbyUIManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-    
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (requestAccepted)
-        {
-            requestAccepted = false;
-            Debug.Log("Challenge accepted.");
-            SceneManager.LoadScene("Game");
-        }
-    }
 }

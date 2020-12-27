@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Socket.Quobject.SocketIoClientDotNet.Client;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,19 +13,13 @@ public class Chat : MonoBehaviour
     private GameObject messagePrefab;
     bool allowEnter;
 
-    private bool hasNewMessage;
-    private string msg;
-    private QSocket socket;
-    // Start is called before the first frame update
-    void Start()
+    public static Chat instance { get; private set; }
+
+    private void Start()
     {
-        hasNewMessage = false;
-        socket = Networking.instance.socket;
-        socket.On("newMessage", (data) =>
-        {
-            hasNewMessage = true;
-            msg = data.ToString();
-        });
+        if (instance == null) {
+            instance = this;
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +27,7 @@ public class Chat : MonoBehaviour
     {
         if (allowEnter && (messageInput.text.Length > 0) && (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
         {
-            socket.Emit("newMessage", messageInput.text);
+            WebGLPluginJS.SocketEmit("newMessage", messageInput.text);
             allowEnter = false;
             messageInput.text = "";
         }
@@ -44,15 +35,9 @@ public class Chat : MonoBehaviour
         {
             allowEnter = messageInput.isFocused || messageInput.isFocused;
         }
-
-        if (hasNewMessage)
-        {
-            hasNewMessage = false;
-            updateChat(msg);
-        }
     }
 
-    void updateChat(string jsonString)
+    public void UpdateChat(string jsonString)
     {
         Debug.Log("You've got message!!");
         Dictionary<string, string> message = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
@@ -67,5 +52,10 @@ public class Chat : MonoBehaviour
             messageText.GetComponent<Text>().color = new Color32(64, 0, 0, 255);
         }
         messageText.transform.SetParent(chatDisplay.transform);
+    }
+
+    public bool InputFocused()
+    {
+        return messageInput.isFocused;
     }
 }

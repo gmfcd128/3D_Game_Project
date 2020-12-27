@@ -24,19 +24,16 @@ public class BallCollisionAudio : MonoBehaviour
         float velocity = collision.relativeVelocity.magnitude;
         if (velocity > ballHitHardTriggerVelocity)
         {
-            //AudioSource.PlayClipAtPoint(PoolAudio.instance.ballCollisionAudio[2], collision.contacts[0].point, 1.0F * (velocity / 100));
             ballAudioSource.PlayOneShot(PoolAudio.instance.ballCollisionAudio[2], 1.0F * (velocity / 100));
         }
         else if (velocity > ballHitTriggerVelocity)
         {
             int sampleIndex = Random.Range(0, 1);
-            //AudioSource.PlayClipAtPoint(PoolAudio.instance.ballCollisionAudio[sampleIndex], collision.contacts[0].point, 1.0F * (velocity / 100));
             ballAudioSource.PlayOneShot(PoolAudio.instance.ballCollisionAudio[sampleIndex], 1.0F * (velocity / 100));
         }
         else
         {
             int sampleIndex = Random.Range(0, 1);
-            //AudioSource.PlayClipAtPoint(PoolAudio.instance.clackAudio[sampleIndex], collision.contacts[0].point, 1.0F * (velocity / 100));
             ballAudioSource.PlayOneShot(PoolAudio.instance.clackAudio[sampleIndex], 1.0F * (velocity / 100));
         }
     }

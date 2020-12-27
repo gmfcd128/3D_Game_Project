@@ -14,6 +14,15 @@ public static class WebGLPluginJS
     [DllImport("__Internal")]
     public static extern void DenyRequest(string opponentSocketID);
 
+    [DllImport("__Internal")]
+    public static extern void AcceptChallenge(string opponentSocketID);
+
+    [DllImport("__Internal")]
+    public static extern void JoinGame();
+
+    [DllImport("__Internal")]
+    public static extern void SocketEmit(string evt, string message);
+
 
 }
 

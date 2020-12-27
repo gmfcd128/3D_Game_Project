@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using Socket.Quobject.SocketIoClientDotNet.Client;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 namespace GameStates
 {
     public class WaitingForNextTurnState : AbstractGameObjectState
@@ -21,7 +17,6 @@ namespace GameStates
         private Vector3 cueOffset;
         private Quaternion cameraRotation;
         private Quaternion cueRotation;
-        private QSocket socket;
 
         public WaitingForNextTurnState(MonoBehaviour parent) : base(parent)
         {
@@ -31,7 +26,6 @@ namespace GameStates
             cueBall = gameController.cueBall;
             redBalls = gameController.redBalls;
             mainCamera = gameController.mainCamera;
-            socket = Networking.instance.socket;
             cueTrans = new SerializedTransform();
             cameraTrans = new SerializedTransform();
             redBallTransform = new SerializedTransform();
@@ -82,11 +76,11 @@ namespace GameStates
             mainCamera.transform.position = cueBall.transform.position - cameraOffset;
             mainCamera.transform.rotation = cameraRotation;
             cameraTrans.SetValue(mainCamera.transform);
-            Networking.instance.socket.Emit("CameraPositionChange", JsonConvert.SerializeObject(cameraTrans));
+            WebGLPluginJS.SocketEmit("CameraPositionChange", JsonConvert.SerializeObject(cameraTrans));
             cue.transform.position = cueBall.transform.position - cueOffset;
             cue.transform.rotation = cueRotation;
             cueTrans.SetValue(cue.transform);
-            Networking.instance.socket.Emit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
+            WebGLPluginJS.SocketEmit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
         }
     }
 }

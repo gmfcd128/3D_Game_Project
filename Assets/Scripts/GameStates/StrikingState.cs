@@ -23,7 +23,7 @@ namespace GameStates {
 		public override void Update() {
 			if (Input.GetButtonUp("Fire1")) {
 				gameController.currentState = new GameStates.StrikeState(gameController);
-				Networking.instance.socket.Emit("ballStriked", "");
+				WebGLPluginJS.SocketEmit("ballStriked", "");
 			}
 		}
 
@@ -33,7 +33,7 @@ namespace GameStates {
 				cueDirection *= -1;
 			cue.transform.Translate(Vector3.down * speed * cueDirection * Time.fixedDeltaTime);
 			cueTrans.SetValue(cue.transform);
-			Networking.instance.socket.Emit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
+			WebGLPluginJS.SocketEmit("CuePositionChange", JsonConvert.SerializeObject(cueTrans));
 		}
 	}
 }

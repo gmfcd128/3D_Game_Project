@@ -12,8 +12,6 @@ namespace GameStates
         private GameObject cue;
         private GameObject cueBall;
         private GameObject mainCamera;
-        protected QSocket socket;
-        private bool cueBallHit;
         private bool cueStickEnable;
         private Vector3 cueBallForce;
 
@@ -26,45 +24,42 @@ namespace GameStates
         private PoolGameController gameController;
         public WatchingState(MonoBehaviour parent) : base(parent)
         {
-            socket = Networking.instance.socket;
             Debug.Log("Watching state entered.");
             gameController = (PoolGameController)parent;
             cue = gameController.cue;
             cueBall = gameController.cueBall;
             mainCamera = gameController.mainCamera;
             currentPlayerCamera = mainCamera.transform;
-
-            socket.On("CuePositionChange", OnCuepositionChange);
-            socket.On("CameraPositionChange", OnCameraPositionChange);
-            socket.On("StrikeDirectionChange", OnStrikeDirectionChange);
-
-            socket.On("CueBallStriked", CueBallHit);
-            socket.On("continue", () => { cueStickEnable = true; });
-            cueBallHit = false;
         }
 
         
 
-        protected void OnCuepositionChange(object data)
+        public override void OnSocketEvent(string eventName, string data)
         {
-            cueTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(data.ToString()); 
-        }
-
-        void OnCameraPositionChange(object data)
-        {
-            cameraTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(data.ToString()); 
-        }
-
-        void OnStrikeDirectionChange(object data)
-        { 
-            strikeDir = JsonConvert.DeserializeObject<SerializableVector3>(data.ToString()); 
-        }
-
-        void CueBallHit(object data)
-        {
-            Debug.Log("The cue ball is hit.");
-            cueBallForce = JsonConvert.DeserializeObject<SerializableVector3>(data.ToString());
-            cueBallHit = true;
+            if (eventName.Equals("CuePositionChange"))
+            {
+                cueTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(@data);
+            }
+            else if (eventName.Equals("CameraPositionChange"))
+            {
+                cameraTransSerialized = JsonConvert.DeserializeObject<SerializedTransform>(@data);
+            }
+            else if (eventName.Equals("StrikeDirectionChange"))
+            {
+                strikeDir = JsonConvert.DeserializeObject<SerializableVector3>(@data);
+            }
+            else if (eventName.Equals("CueBallStriked"))
+            {
+                Debug.Log("The cue ball is hit.");
+                cueBallForce = JsonConvert.DeserializeObject<SerializableVector3>(@data);
+                cue.GetComponent<Renderer>().enabled = false;
+                cueBall.GetComponent<Rigidbody>().AddForce(cueBallForce);
+            }
+            else if (eventName.Equals("continue"))
+            {
+                cueStickEnable = true;
+            }
+            
         }
 
         public override void Update()
@@ -80,13 +75,6 @@ namespace GameStates
             {
                 gameController.strikeDirection = (Vector3)strikeDir;
                 Debug.Log(strikeDir);
-            }
-
-            if (cueBallHit)
-            {
-                cue.GetComponent<Renderer>().enabled = false;
-                cueBall.GetComponent<Rigidbody>().AddForce(cueBallForce);
-                cueBallHit = false;
             }
 
             if (cueStickEnable)

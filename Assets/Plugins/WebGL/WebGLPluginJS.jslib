@@ -13,6 +13,7 @@ mergeInto(LibraryManager.library, {
             this.socket.emit("playerUnavailable", "");
         }.bind(this));
         this.socket.on("acceptChallenge", function(data) {
+            this.serverReady = false;
             console.log("socket event: acceptChallenge");
             unityInstance.SendMessage("LobbyUIManager", "EnterGame");
         });
@@ -34,6 +35,7 @@ mergeInto(LibraryManager.library, {
             unityInstance.SendMessage("GameManager", "updateTimer", data);
         });
         this.socket.on("serverReady", function(data) {
+            this.serverReady = true;
             unityInstance.SendMessage("GameManager", "OnServerReady");
         });
         this.socket.on("opponentQuit", function(data) {
@@ -46,6 +48,9 @@ mergeInto(LibraryManager.library, {
         this.socket.on("CameraPositionChange", function(data) {
             unityInstance.SendMessage("PoolGame", "OnCameraPositionChange", data);
         });
+        this.socket.on("continue", function(data) {
+            unityInstance.SendMessage("PoolGame", "OnContinue");
+        });
         this.socket.on("StrikeDirectionChange", function(data) {
             unityInstance.SendMessage("PoolGame", "OnStrikeDirectionChange", data);
         });
@@ -54,7 +59,7 @@ mergeInto(LibraryManager.library, {
         });
         this.socket.on("endMatch", function(data) {
             unityInstance.SendMessage("PoolGame", "EndMatch");
-        })
+        });
 
         this.socket.emit("joinGame", this.username);
     },
@@ -72,6 +77,7 @@ mergeInto(LibraryManager.library, {
     },
 
     AcceptChallenge : function(data) {
+        this.serverReady = false;
         var opponentSocketID = Pointer_stringify(data);
         this.socket.emit("acceptChallenge", opponentSocketID);
     },
@@ -86,7 +92,10 @@ mergeInto(LibraryManager.library, {
         var event = Pointer_stringify(evt);
         var message = Pointer_stringify(msg);
         this.socket.emit(event, message);
+    },
+
+    PlayerReady : function() {
+        this.socket.emit("playerReady", "");     
     }
 
-    
 });

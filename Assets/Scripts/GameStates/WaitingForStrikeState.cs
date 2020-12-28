@@ -54,17 +54,14 @@ namespace GameStates {
 			}
 			Debug.DrawLine(cueBall.transform.position, cueBall.transform.position + gameController.strikeDirection * 10);
 			
-<<<<<<< HEAD
-			if (y != 0 && !Chat.instance.InputFocused())
-=======
-			/*if (y != 0)
->>>>>>> 58ffddfbedb735aa5543e977641cb3ba91ff8b41
+
+			/*if (y != 0 && !Chat.instance.InputFocused()
 			{
 				var angle2 = y * 50 * Time.deltaTime;
 				gameController.strikeDirection = Quaternion.AngleAxis(angle2, Vector3.forward) * gameController.strikeDirection;
 				mainCamera.transform.RotateAround(cueBall.transform.position, Vector3.forward, angle2);
 				cue.transform.RotateAround(cueBall.transform.position, Vector3.forward, angle2);
-			}**/
+			}*/
 			if (Input.GetButtonDown("Fire1") && (IsPointerOverUIObject() == false)) {
 				WebGLPluginJS.SocketEmit("CueReleased", "");
 				gameController.currentState = new GameStates.StrikingState(gameController);

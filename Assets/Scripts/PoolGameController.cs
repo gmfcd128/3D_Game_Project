@@ -64,31 +64,12 @@ public class PoolGameController : MonoBehaviour
         currentState = new GameStates.WaitingForStrikeState(this);
         if (firstEntry)
         {
-<<<<<<< HEAD
             firstEntry = false;
         }
         else
         {
             InvertCameraPosition();
         }
-=======
-            CurrentPlayer = mySelf;
-            IdlePlayer = opponent;
-            Debug.Log(currentState.GetType());
-            currentState = new GameStates.WaitingForStrikeState(this);
-            if (firstEntry)
-            {
-                firstEntry = false;
-            }
-            else
-            {
-                InvertCameraPosition();
-            }
-        });
-
-        socket.On("endMatch", () => { gameFinished = true; });
-
->>>>>>> 58ffddfbedb735aa5543e977641cb3ba91ff8b41
     }
 
     void Update()
@@ -130,6 +111,11 @@ public class PoolGameController : MonoBehaviour
         currentState.OnSocketEvent("CueBallStriked", @data);
     }
 
+    public void OnContinue()
+    {
+        currentState.OnSocketEvent("continue", "");
+    }
+
 
     public void BallPocketed(int ballNumber)
     {
@@ -143,9 +129,7 @@ public class PoolGameController : MonoBehaviour
         {
             currentPlayerContinuesToPlay = false;
             WebGLPluginJS.SocketEmit("continue", "");
-            currentState.OnSocketEvent("continue", "");
             Debug.Log(CurrentPlayer.Name + " continues to play");
-            return;
         }
         else
         {
@@ -196,11 +180,9 @@ public class PoolGameController : MonoBehaviour
             msg += string.Format("'{0}' 贏了", winner.Name);
         else
             msg += "平手.";
-<<<<<<< HEAD
+
         WebGLPluginJS.SocketEmit("endMatch", "");
-=======
-        socket.Emit("endMatch", "");
->>>>>>> 58ffddfbedb735aa5543e977641cb3ba91ff8b41
+
 
         GameManager.instance.displayMatchResult(msg);
     }

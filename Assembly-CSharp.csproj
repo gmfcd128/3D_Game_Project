@@ -310,25 +310,8 @@
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>D:/it_work/capestone_project/API_Test(Unity2019)/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
-<<<<<<< HEAD
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>D:/it_work/capestone_project/API_Test(Unity2019)/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
-=======
-    <Reference Include="WebSocket4Net">
-      <HintPath>D:/it_work/capestone_project/API_Test/Assets/WebSocket4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Posix">
-      <HintPath>D:/it_work/capestone_project/API_Test/Assets/StandaloneFileBrowser/Plugins/Mono.Posix.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.WebBrowser">
-      <HintPath>D:/it_work/capestone_project/API_Test/Assets/StandaloneFileBrowser/Plugins/Mono.WebBrowser.dll</HintPath>
-    </Reference>
-    <Reference Include="Ookii.Dialogs">
-      <HintPath>D:/it_work/capestone_project/API_Test/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms">
-      <HintPath>D:/it_work/capestone_project/API_Test/Assets/StandaloneFileBrowser/Plugins/System.Windows.Forms.dll</HintPath>
->>>>>>> 58ffddfbedb735aa5543e977641cb3ba91ff8b41
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/it_work/capestone_project/API_Test(Unity2019)/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>

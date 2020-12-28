@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Image opponentAvatar;
 
-    private bool opponentQuit = false;
+    public bool serverReady = false;
     public bool playerReady = false;
     private int remainingTime = 0;
     public static GameManager instance { get; private set; }
@@ -47,10 +47,7 @@ public class GameManager : MonoBehaviour
 
     public void OnServerReady()
     {
-        if (playerReady)
-        {
-            WebGLPluginJS.SocketEmit("playerReady", "");
-        }
+        serverReady = true;
     }
 
     public void UpdateHUD(int isPlaying)

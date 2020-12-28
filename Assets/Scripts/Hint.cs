@@ -22,10 +22,13 @@ public class Hint : MonoBehaviour
     // Update is called once per frame
     void startGame()
     {
+        WebGLPluginJS.PlayerReady();
+        //WebGLPluginJS.SocketEmit("playerReady", "");
         Controller.SetActive(true);
         uiPanel.SetActive(true);
         scoreBarPanel.SetActive(true);
         GameManager.instance.playerReady = true;
         gameObject.SetActive(false);
+        
     }
 }

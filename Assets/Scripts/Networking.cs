@@ -108,16 +108,18 @@ public class Networking : MonoBehaviour
                 }
             }
             UIManager.instance.GoToLobby();
-            
+
 
         }
     }
 
-    
+
 
     IEnumerator SignUp()
     {
+        string result;
         UnityWebRequest request = new UnityWebRequest("http://" + url + ":3000/signup", "POST");
+        request.useHttpContinue = false;
         JObject credentials = new JObject();
         credentials["username"] = username;
         credentials["password"] = password;
@@ -128,17 +130,16 @@ public class Networking : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        if (request.isNetworkError)
-
+        if (request.isNetworkError || request.isHttpError)
         {
-            Debug.Log("http error:" + request.error);
+            result = request.error;
         }
         else
         {
-            string result = request.downloadHandler.text;
-            Debug.Log(result);
-            UIManager.instance.ShowMessage(result);
+            result = request.downloadHandler.text;
         }
+        Debug.Log(result);
+        UIManager.instance.ShowMessage(result);
 
     }
 

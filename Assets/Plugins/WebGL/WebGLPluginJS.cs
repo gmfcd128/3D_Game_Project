@@ -22,6 +22,8 @@ public static class WebGLPluginJS
 
     [DllImport("__Internal")]
     public static extern void SocketEmit(string evt, string message);
+    [DllImport("__Internal")]
+    public static extern void PlayerReady();
 
 
 }
